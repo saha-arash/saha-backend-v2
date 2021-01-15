@@ -1,0 +1,32 @@
+{
+    "name": "Morkhasi",
+    "fields": [
+        {
+            "fieldName": "begin",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "end",
+            "fieldType": "Instant"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "karbar",
+            "otherEntityRelationshipName": "morkhasi",
+            "relationshipName": "karbar",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20210110113000",
+    "entityTableName": "morkhasi",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

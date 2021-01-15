@@ -1,0 +1,37 @@
+{
+    "name": "NirooCode",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "code",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "yeganCode",
+            "otherEntityRelationshipName": "nirooCode",
+            "relationshipName": "yeganCode"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "yegan",
+            "otherEntityRelationshipName": "nirooCode",
+            "relationshipName": "yegan"
+        }
+    ],
+    "changelogDate": "20210110113900",
+    "entityTableName": "niroo_code",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

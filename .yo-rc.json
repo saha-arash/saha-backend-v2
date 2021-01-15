@@ -1,0 +1,37 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "ir.saha"
+    },
+    "jhipsterVersion": "6.7.1",
+    "applicationType": "monolith",
+    "baseName": "saha",
+    "packageName": "ir.saha",
+    "packageFolder": "ir/saha",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "ZGZkNzgyNTViMjJiZTIwMTI4M2FmZDg3ODJiYTAwNDk5MDU0M2E4ZWQ4MGQxMmFjN2NkZDNlY2I3ODkzM2IxNGU1ZjIzNTNiZjc3YmM2ODFhM2U2NTEyMDExYmFjMmRhZjA1Y2M4MDk1Yzk4M2FkYzY0NjUzYzk4YTQzZGQ3ODM=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "skipClient": true,
+    "creationTimestamp": 1610277261948,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}
