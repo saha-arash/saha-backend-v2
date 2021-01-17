@@ -25,6 +25,48 @@
             <column name="gozaresh_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_gozaresh_id" />
             </column>
+            <column name="bank_etelaati_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_bank_etelaati_id" />
+            </column>
+            <column name="rafe_iradat_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_rafe_iradat_id" />
+            </column>
+            <column name="mosta_khreje_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_mosta_khreje_id" />
+            </column>
+            <column name="bilan_se_sal_ghabl_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_bilan_se_sal_ghabl_id" />
+            </column>
+            <column name="mohasebe_hazine_mamooriat_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_mohasebe_hazine_mamooriat_id" />
+            </column>
+            <column name="chekide_gardesh_kar_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_chekide_gardesh_kar_id" />
+            </column>
+            <column name="gozaresh_hozoor_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_gozaresh_hozoor_id" />
+            </column>
+            <column name="bilan_sal_ghabl_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_bilan_sal_ghabl_id" />
+            </column>
+            <column name="madarek_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_madarek_id" />
+            </column>
+            <column name="gardeshkar_barname_hesabresi_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_gardeshkar_barname_hesabresi_id" />
+            </column>
+            <column name="dastoor_amal_ejrae_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_dastoor_amal_ejrae_id" />
+            </column>
+            <column name="nameh_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_nameh_id" />
+            </column>
+            <column name="kholase_gozaresh_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_kholase_gozaresh_id" />
+            </column>
+            <column name="gardesh_kar_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_gardesh_kar_id" />
+            </column>
             <column name="barname_hesab_resi_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_hesab_resi_barname_hesab_resi_id" />
             </column>

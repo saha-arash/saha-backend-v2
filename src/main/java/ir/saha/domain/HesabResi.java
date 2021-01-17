@@ -35,6 +35,62 @@ public class HesabResi implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
+    private BankEtelaati bankEtelaati;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private RafeIradat rafeIradat;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private MostaKhreje mostaKhreje;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private BilanSeSalGhabl bilanSeSalGhabl;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private MohasebeHazineMamooriat mohasebeHazineMamooriat;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private ChekideGardeshKar chekideGardeshKar;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private GozareshHozoor gozareshHozoor;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private BilanSalGhabl bilanSalGhabl;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Madarek madarek;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private GardeshkarBarnameHesabresi gardeshkarBarnameHesabresi;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private DastoorAmalEjraE dastoorAmalEjraE;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Nameh nameh;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private KholaseGozaresh kholaseGozaresh;
+
+    @OneToOne
+    @JoinColumn(unique = true)
+    private GardeshKar gardeshKar;
+
+    @OneToOne
+    @JoinColumn(unique = true)
     private BarnameHesabResi barnameHesabResi;
 
     @OneToMany(mappedBy = "hesabResi")
@@ -89,6 +145,188 @@ public class HesabResi implements Serializable {
 
     public void setGozaresh(Gozaresh gozaresh) {
         this.gozaresh = gozaresh;
+    }
+
+    public BankEtelaati getBankEtelaati() {
+        return bankEtelaati;
+    }
+
+    public HesabResi bankEtelaati(BankEtelaati bankEtelaati) {
+        this.bankEtelaati = bankEtelaati;
+        return this;
+    }
+
+    public void setBankEtelaati(BankEtelaati bankEtelaati) {
+        this.bankEtelaati = bankEtelaati;
+    }
+
+    public RafeIradat getRafeIradat() {
+        return rafeIradat;
+    }
+
+    public HesabResi rafeIradat(RafeIradat rafeIradat) {
+        this.rafeIradat = rafeIradat;
+        return this;
+    }
+
+    public void setRafeIradat(RafeIradat rafeIradat) {
+        this.rafeIradat = rafeIradat;
+    }
+
+    public MostaKhreje getMostaKhreje() {
+        return mostaKhreje;
+    }
+
+    public HesabResi mostaKhreje(MostaKhreje mostaKhreje) {
+        this.mostaKhreje = mostaKhreje;
+        return this;
+    }
+
+    public void setMostaKhreje(MostaKhreje mostaKhreje) {
+        this.mostaKhreje = mostaKhreje;
+    }
+
+    public BilanSeSalGhabl getBilanSeSalGhabl() {
+        return bilanSeSalGhabl;
+    }
+
+    public HesabResi bilanSeSalGhabl(BilanSeSalGhabl bilanSeSalGhabl) {
+        this.bilanSeSalGhabl = bilanSeSalGhabl;
+        return this;
+    }
+
+    public void setBilanSeSalGhabl(BilanSeSalGhabl bilanSeSalGhabl) {
+        this.bilanSeSalGhabl = bilanSeSalGhabl;
+    }
+
+    public MohasebeHazineMamooriat getMohasebeHazineMamooriat() {
+        return mohasebeHazineMamooriat;
+    }
+
+    public HesabResi mohasebeHazineMamooriat(MohasebeHazineMamooriat mohasebeHazineMamooriat) {
+        this.mohasebeHazineMamooriat = mohasebeHazineMamooriat;
+        return this;
+    }
+
+    public void setMohasebeHazineMamooriat(MohasebeHazineMamooriat mohasebeHazineMamooriat) {
+        this.mohasebeHazineMamooriat = mohasebeHazineMamooriat;
+    }
+
+    public ChekideGardeshKar getChekideGardeshKar() {
+        return chekideGardeshKar;
+    }
+
+    public HesabResi chekideGardeshKar(ChekideGardeshKar chekideGardeshKar) {
+        this.chekideGardeshKar = chekideGardeshKar;
+        return this;
+    }
+
+    public void setChekideGardeshKar(ChekideGardeshKar chekideGardeshKar) {
+        this.chekideGardeshKar = chekideGardeshKar;
+    }
+
+    public GozareshHozoor getGozareshHozoor() {
+        return gozareshHozoor;
+    }
+
+    public HesabResi gozareshHozoor(GozareshHozoor gozareshHozoor) {
+        this.gozareshHozoor = gozareshHozoor;
+        return this;
+    }
+
+    public void setGozareshHozoor(GozareshHozoor gozareshHozoor) {
+        this.gozareshHozoor = gozareshHozoor;
+    }
+
+    public BilanSalGhabl getBilanSalGhabl() {
+        return bilanSalGhabl;
+    }
+
+    public HesabResi bilanSalGhabl(BilanSalGhabl bilanSalGhabl) {
+        this.bilanSalGhabl = bilanSalGhabl;
+        return this;
+    }
+
+    public void setBilanSalGhabl(BilanSalGhabl bilanSalGhabl) {
+        this.bilanSalGhabl = bilanSalGhabl;
+    }
+
+    public Madarek getMadarek() {
+        return madarek;
+    }
+
+    public HesabResi madarek(Madarek madarek) {
+        this.madarek = madarek;
+        return this;
+    }
+
+    public void setMadarek(Madarek madarek) {
+        this.madarek = madarek;
+    }
+
+    public GardeshkarBarnameHesabresi getGardeshkarBarnameHesabresi() {
+        return gardeshkarBarnameHesabresi;
+    }
+
+    public HesabResi gardeshkarBarnameHesabresi(GardeshkarBarnameHesabresi gardeshkarBarnameHesabresi) {
+        this.gardeshkarBarnameHesabresi = gardeshkarBarnameHesabresi;
+        return this;
+    }
+
+    public void setGardeshkarBarnameHesabresi(GardeshkarBarnameHesabresi gardeshkarBarnameHesabresi) {
+        this.gardeshkarBarnameHesabresi = gardeshkarBarnameHesabresi;
+    }
+
+    public DastoorAmalEjraE getDastoorAmalEjraE() {
+        return dastoorAmalEjraE;
+    }
+
+    public HesabResi dastoorAmalEjraE(DastoorAmalEjraE dastoorAmalEjraE) {
+        this.dastoorAmalEjraE = dastoorAmalEjraE;
+        return this;
+    }
+
+    public void setDastoorAmalEjraE(DastoorAmalEjraE dastoorAmalEjraE) {
+        this.dastoorAmalEjraE = dastoorAmalEjraE;
+    }
+
+    public Nameh getNameh() {
+        return nameh;
+    }
+
+    public HesabResi nameh(Nameh nameh) {
+        this.nameh = nameh;
+        return this;
+    }
+
+    public void setNameh(Nameh nameh) {
+        this.nameh = nameh;
+    }
+
+    public KholaseGozaresh getKholaseGozaresh() {
+        return kholaseGozaresh;
+    }
+
+    public HesabResi kholaseGozaresh(KholaseGozaresh kholaseGozaresh) {
+        this.kholaseGozaresh = kholaseGozaresh;
+        return this;
+    }
+
+    public void setKholaseGozaresh(KholaseGozaresh kholaseGozaresh) {
+        this.kholaseGozaresh = kholaseGozaresh;
+    }
+
+    public GardeshKar getGardeshKar() {
+        return gardeshKar;
+    }
+
+    public HesabResi gardeshKar(GardeshKar gardeshKar) {
+        this.gardeshKar = gardeshKar;
+        return this;
+    }
+
+    public void setGardeshKar(GardeshKar gardeshKar) {
+        this.gardeshKar = gardeshKar;
     }
 
     public BarnameHesabResi getBarnameHesabResi() {

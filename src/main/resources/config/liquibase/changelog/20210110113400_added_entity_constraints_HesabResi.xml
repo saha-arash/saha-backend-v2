@@ -14,6 +14,90 @@
                                  referencedColumnNames="id"
                                  referencedTableName="gozaresh"/>
 
+        <addForeignKeyConstraint baseColumnNames="bank_etelaati_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_bank_etelaati_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bank_etelaati"/>
+
+        <addForeignKeyConstraint baseColumnNames="rafe_iradat_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_rafe_iradat_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="rafe_iradat"/>
+
+        <addForeignKeyConstraint baseColumnNames="mosta_khreje_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_mosta_khreje_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mosta_khreje"/>
+
+        <addForeignKeyConstraint baseColumnNames="bilan_se_sal_ghabl_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_bilan_se_sal_ghabl_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bilan_se_sal_ghabl"/>
+
+        <addForeignKeyConstraint baseColumnNames="mohasebe_hazine_mamooriat_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_mohasebe_hazine_mamooriat_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mohasebe_hazine_mamooriat"/>
+
+        <addForeignKeyConstraint baseColumnNames="chekide_gardesh_kar_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_chekide_gardesh_kar_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="chekide_gardesh_kar"/>
+
+        <addForeignKeyConstraint baseColumnNames="gozaresh_hozoor_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_gozaresh_hozoor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="gozaresh_hozoor"/>
+
+        <addForeignKeyConstraint baseColumnNames="bilan_sal_ghabl_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_bilan_sal_ghabl_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bilan_sal_ghabl"/>
+
+        <addForeignKeyConstraint baseColumnNames="madarek_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_madarek_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="madarek"/>
+
+        <addForeignKeyConstraint baseColumnNames="gardeshkar_barname_hesabresi_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_gardeshkar_barname_hesabresi_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="gardeshkar_barname_hesabresi"/>
+
+        <addForeignKeyConstraint baseColumnNames="dastoor_amal_ejrae_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_dastoor_amal_ejrae_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="dastoor_amal_ejra_e"/>
+
+        <addForeignKeyConstraint baseColumnNames="nameh_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_nameh_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="nameh"/>
+
+        <addForeignKeyConstraint baseColumnNames="kholase_gozaresh_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_kholase_gozaresh_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="kholase_gozaresh"/>
+
+        <addForeignKeyConstraint baseColumnNames="gardesh_kar_id"
+                                 baseTableName="hesab_resi"
+                                 constraintName="fk_hesab_resi_gardesh_kar_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="gardesh_kar"/>
+
         <addForeignKeyConstraint baseColumnNames="barname_hesab_resi_id"
                                  baseTableName="hesab_resi"
                                  constraintName="fk_hesab_resi_barname_hesab_resi_id"
