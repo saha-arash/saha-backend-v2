@@ -283,6 +283,9 @@ public class Karbar implements Serializable {
     }
 
     public Set<BargeMamooriat> getSarparestemamooriats() {
+        if (this.sarparestemamooriats==null){
+            return new HashSet<>();
+        }
         return sarparestemamooriats;
     }
 
@@ -358,6 +361,9 @@ public class Karbar implements Serializable {
     }
 
     public Set<BargeMamooriat> getBargeMamoorits() {
+        if (this.bargeMamoorits==null){
+            return new HashSet<>();
+        }
         return bargeMamoorits;
     }
 
@@ -383,6 +389,9 @@ public class Karbar implements Serializable {
     }
 
     public Set<BargeMamooriat> getBinanadeBargeMamoorits() {
+        if (this.binanadeBargeMamoorits==null){
+            return new HashSet<>();
+        }
         return binanadeBargeMamoorits;
     }
 

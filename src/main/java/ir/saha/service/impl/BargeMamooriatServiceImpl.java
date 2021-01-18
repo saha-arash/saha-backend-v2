@@ -64,13 +64,29 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
         log.debug("Request to save BargeMamooriat : {}", bargeMamooriatDTO);
         BargeMamooriat bargeMamooriat = bargeMamooriatMapper.toEntity(bargeMamooriatDTO);
         if (bargeMamooriatDTO.getBinandegan()!=null){
-            bargeMamooriat.setBinandes(new HashSet<>(karbarRepository.findAllById(bargeMamooriatDTO.getBinandegan()))) ;
+            List<Karbar> allById = karbarRepository.findAllById(bargeMamooriatDTO.getBinandegan());
+
+            bargeMamooriat.setBinandes(new HashSet<>(allById)) ;
+            bargeMamooriat = bargeMamooriatRepository.save(bargeMamooriat);
+            for (Karbar karbar : allById) {
+                karbar.getBinanadeBargeMamoorits().add(bargeMamooriat);
+                karbarRepository.save(karbar);
+            }
         }
         if (bargeMamooriatDTO.getNafarat()!=null){
-            bargeMamooriat.setNafars(new HashSet<>(karbarRepository.findAllById(bargeMamooriatDTO.getNafarat()))); ;
+            List<Karbar> allById = karbarRepository.findAllById(bargeMamooriatDTO.getNafarat());
+            bargeMamooriat.setNafars(new HashSet<>(allById)); ;
+            bargeMamooriat = bargeMamooriatRepository.save(bargeMamooriat);
+            for (Karbar karbar : allById) {
+                karbar.getBargeMamoorits().add(bargeMamooriat);
+                karbarRepository.save(karbar);
+            }
         }
         if (bargeMamooriatDTO.getSarparastId()!=null){
-            bargeMamooriat.setSarparast(karbarRepository.findById(bargeMamooriatDTO.getSarparastId()).get()); ;
+            Karbar karbar = karbarRepository.findById(bargeMamooriatDTO.getSarparastId()).get();
+            bargeMamooriat.setSarparast(karbar); ;
+            bargeMamooriat = bargeMamooriatRepository.save(bargeMamooriat);
+            karbar.getSarparestemamooriats().add(bargeMamooriat);
         }
         bargeMamooriat = bargeMamooriatRepository.save(bargeMamooriat);
         return bargeMamooriatMapper.toDto(bargeMamooriat);
@@ -112,7 +128,12 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
     public Optional<BargeMamooriatDTO> findOne(Long id) {
         log.debug("Request to get BargeMamooriat : {}", id);
         return bargeMamooriatRepository.findById(id)
-            .map(bargeMamooriatMapper::toDto);
+            .map(b->{
+                BargeMamooriatDTO bargeMamooriatDTO = bargeMamooriatMapper.toDto(b);
+                bargeMamooriatDTO.setBinandegan(b.getBinandes().stream().map(bi->bi.getId()).collect(Collectors.toList()));
+                bargeMamooriatDTO.setNafarat(b.getNafars().stream().map(bi->bi.getId()).collect(Collectors.toList()));
+                return bargeMamooriatDTO;
+            });
     }
 
     /**
