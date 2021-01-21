@@ -1,6 +1,7 @@
 package ir.saha.web.rest;
 
 import ir.saha.service.FileHesabResiService;
+import ir.saha.service.dto.FileHesabResirequest;
 import ir.saha.web.rest.errors.BadRequestAlertException;
 import ir.saha.service.dto.FileHesabResiDTO;
 
@@ -83,20 +84,27 @@ public class FileHesabResiResource {
             .body(result);
     }
 
-    /**
-     * {@code GET  /file-hesab-resis} : get all the fileHesabResis.
-     *
-     * @param pageable the pagination information.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of fileHesabResis in body.
-     */
-    @GetMapping("/file-hesab-resis")
-    public ResponseEntity<List<FileHesabResiDTO>> getAllFileHesabResis(Pageable pageable) {
+//    /**
+//     * {@code GET  /file-hesab-resis} : get all the fileHesabResis.
+//     *
+//     * @param pageable the pagination information.
+//     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of fileHesabResis in body.
+//     */
+//    @GetMapping("/file-hesab-resis")
+//    public ResponseEntity<List<FileHesabResiDTO>> getAllFileHesabResis(Pageable pageable) {
+//        log.debug("REST request to get a page of FileHesabResis");
+//        Page<FileHesabResiDTO> page = fileHesabResiService.findAll(pageable);
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+//        return ResponseEntity.ok().headers(headers).body(page.getContent());
+//    }
+
+    @GetMapping("/file-hesab-resis/")
+    public ResponseEntity<List<FileHesabResiDTO>> getAllFileHesabResis(Pageable pageable,FileHesabResirequest fileHesabResirequest) {
         log.debug("REST request to get a page of FileHesabResis");
-        Page<FileHesabResiDTO> page = fileHesabResiService.findAll(pageable);
+        Page<FileHesabResiDTO> page = fileHesabResiService.getFiles(pageable,fileHesabResirequest);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
     /**
      * {@code GET  /file-hesab-resis/:id} : get the "id" fileHesabResi.
      *

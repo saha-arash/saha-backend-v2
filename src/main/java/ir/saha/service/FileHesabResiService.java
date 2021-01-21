@@ -2,6 +2,7 @@ package ir.saha.service;
 
 import ir.saha.service.dto.FileHesabResiDTO;
 
+import ir.saha.service.dto.FileHesabResirequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -42,4 +43,6 @@ public interface FileHesabResiService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<FileHesabResiDTO> getFiles(Pageable pageable, FileHesabResirequest fileHesabResirequest);
 }

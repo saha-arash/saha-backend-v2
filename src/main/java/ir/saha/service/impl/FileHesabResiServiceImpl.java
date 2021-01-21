@@ -4,6 +4,7 @@ import ir.saha.service.FileHesabResiService;
 import ir.saha.domain.FileHesabResi;
 import ir.saha.repository.FileHesabResiRepository;
 import ir.saha.service.dto.FileHesabResiDTO;
+import ir.saha.service.dto.FileHesabResirequest;
 import ir.saha.service.mapper.FileHesabResiMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,5 +85,11 @@ public class FileHesabResiServiceImpl implements FileHesabResiService {
     public void delete(Long id) {
         log.debug("Request to delete FileHesabResi : {}", id);
         fileHesabResiRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<FileHesabResiDTO> getFiles(Pageable pageable, FileHesabResirequest fileHesabResirequest) {
+        return fileHesabResiRepository.findAllByFileTypeAndHesabResi_Id(fileHesabResirequest.getFileType(),fileHesabResirequest.getHesabresiId(),pageable)
+            .map(fileHesabResiMapper::toDto);
     }
 }
