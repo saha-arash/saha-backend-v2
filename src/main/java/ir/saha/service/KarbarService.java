@@ -1,5 +1,6 @@
 package ir.saha.service;
 
+import ir.saha.domain.Karbar;
 import ir.saha.service.dto.KarbarDTO;
 
 import org.springframework.data.domain.Page;
@@ -52,4 +53,8 @@ public interface KarbarService {
     void delete(Long id);
 
     Optional<List<KarbarDTO>> findByIds(List<Long> ids);
+
+    Optional<List<KarbarDTO>> findByExample(Karbar karbar);
+
+    Optional<List<KarbarDTO>> search(String name);
 }

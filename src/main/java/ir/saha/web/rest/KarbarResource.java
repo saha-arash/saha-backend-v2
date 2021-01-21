@@ -1,5 +1,6 @@
 package ir.saha.web.rest;
 
+import ir.saha.domain.Karbar;
 import ir.saha.service.KarbarService;
 import ir.saha.web.rest.errors.BadRequestAlertException;
 import ir.saha.service.dto.KarbarDTO;
@@ -119,6 +120,18 @@ public class KarbarResource {
     @GetMapping("/karbars/by-ids")
     public ResponseEntity<List<KarbarDTO>> getKarbar(@RequestParam List<Long> ids) {
         Optional<List<KarbarDTO>> karbarDTO = karbarService.findByIds(ids);
+        return ResponseUtil.wrapOrNotFound(karbarDTO);
+    }
+
+    @GetMapping("/karbars/search-by-example")
+    public ResponseEntity<List<KarbarDTO>> getKarbar(Karbar karbar) {
+        Optional<List<KarbarDTO>> karbarDTO = karbarService.findByExample(karbar);
+        return ResponseUtil.wrapOrNotFound(karbarDTO);
+    }
+
+    @GetMapping("/karbars/search")
+    public ResponseEntity<List<KarbarDTO>> getKarbar(@RequestParam String name) {
+        Optional<List<KarbarDTO>> karbarDTO = karbarService.search(name);
         return ResponseUtil.wrapOrNotFound(karbarDTO);
     }
 

@@ -8,6 +8,7 @@ import ir.saha.service.mapper.KarbarMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -100,5 +101,15 @@ public class KarbarServiceImpl implements KarbarService {
     @Override
     public Optional<List<KarbarDTO>> findByIds(List<Long> ids) {
          return Optional.of(karbarRepository.findAllById(ids).stream().map(karbarMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<KarbarDTO>> findByExample(Karbar karbar) {
+        return Optional.of(karbarRepository.findAll(Example.of(karbar)).stream().map(karbarMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<KarbarDTO>> search(String name) {
+        return Optional.of(karbarRepository.serachByName(name).stream().map(karbarMapper::toDto).collect(Collectors.toList()));
     }
 }
