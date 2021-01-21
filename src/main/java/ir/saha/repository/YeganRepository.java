@@ -1,5 +1,6 @@
 package ir.saha.repository;
 
+import ir.saha.domain.Karbar;
 import ir.saha.domain.Yegan;
 
 import org.springframework.data.domain.Page;
@@ -26,5 +27,8 @@ public interface YeganRepository extends JpaRepository<Yegan, Long> {
 
     @Query("select yegan from Yegan yegan left join fetch yegan.zirYegans where yegan.id =:id")
     Optional<Yegan> findOneWithEagerRelationships(@Param("id") Long id);
+
+    @Query("select  yegan from Yegan yegan where yegan.name like %:d%  ")
+    List<Yegan> serachByName(@Param("d") String name);
 
 }

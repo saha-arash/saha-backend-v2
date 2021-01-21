@@ -123,6 +123,11 @@ public class YeganResource {
         Optional<YeganDTO> yeganDTO = yeganService.findOne(id);
         return ResponseUtil.wrapOrNotFound(yeganDTO);
     }
+    @GetMapping("/yegans/serach")
+    public ResponseEntity<List<YeganDTO>> getYegan(@RequestParam(name = "name") String name) {
+        Optional<List<YeganDTO>> yeganDTO = yeganService.search(name);
+        return ResponseUtil.wrapOrNotFound(yeganDTO);
+    }
 
     @GetMapping("/yegans/barresi-nashode")
     public ResponseEntity<List<YeganDTO>> getYeganBarresiNashode(FiltereYeganBarresiNashode filtereYeganBarresiNashode) {

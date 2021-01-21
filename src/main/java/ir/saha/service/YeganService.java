@@ -60,4 +60,5 @@ public interface YeganService {
 
     Optional<List<YeganDTO>> findYeganBarresiNashode(FiltereYeganBarresiNashode filtereYeganBarresiNashode);
 
+    Optional<List<YeganDTO>> search(String name);
 }

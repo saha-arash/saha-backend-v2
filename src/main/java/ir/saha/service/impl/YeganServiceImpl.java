@@ -151,4 +151,11 @@ public class YeganServiceImpl implements YeganService {
             }
             return true;}).map(yeganMapper::toDto).collect(Collectors.toList()));
     }
+
+    @Override
+    public Optional<List<YeganDTO>> search(String name) {
+        return Optional.of(yeganRepository.serachByName(name).stream()
+            .map(yeganMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new)));
+    }
 }
