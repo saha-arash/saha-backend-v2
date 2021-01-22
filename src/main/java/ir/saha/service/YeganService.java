@@ -1,5 +1,6 @@
 package ir.saha.service;
 
+import ir.saha.domain.Yegan;
 import ir.saha.service.dto.FiltereYeganBarresiNashode;
 import ir.saha.service.dto.YeganDTO;
 
@@ -29,6 +30,7 @@ public interface YeganService {
      * @return the list of entities.
      */
     Page<YeganDTO> findAll(Pageable pageable);
+    List<Yegan> findAll();
     /**
      * Get all the YeganDTO where YeganCode is {@code null}.
      *

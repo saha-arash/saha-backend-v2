@@ -77,6 +77,12 @@ public class YeganServiceImpl implements YeganService {
             .map(yeganMapper::toDto);
     }
 
+    @Override
+    public List<Yegan> findAll() {
+        log.debug("Request to get all Yegans");
+        return yeganRepository.findAll();
+    }
+
     /**
      * Get all the yegans with eager load of many-to-many relationships.
      *
