@@ -1,5 +1,6 @@
 package ir.saha.web.rest;
 
+import ir.saha.security.SecurityUtils;
 import ir.saha.security.jwt.JWTFilter;
 import ir.saha.security.jwt.TokenProvider;
 import ir.saha.web.rest.vm.LoginVM;
@@ -34,7 +35,7 @@ public class UserJWTController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<JWTToken> authorize(@RequestParam(name = "user-type",required = false) String userType,@Valid @RequestBody LoginVM loginVM) {
+    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
 
         UsernamePasswordAuthenticationToken authenticationToken =
             new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
@@ -45,7 +46,7 @@ public class UserJWTController {
         String jwt = tokenProvider.createToken(authentication, rememberMe);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        return new ResponseEntity<>(new JWTToken(jwt,userType), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new JWTToken(jwt, tokenProvider.getClimeByKey("auth",jwt)), httpHeaders, HttpStatus.OK);
     }
     /**
      * Object to return as body in JWT Authentication.
@@ -57,8 +58,10 @@ public class UserJWTController {
 
         JWTToken(String idToken,String userType) {
             this.idToken = idToken;
+            this.userType = userType;
         }
 
+        @JsonProperty("roles")
         public String getUserType() {
             return userType;
         }

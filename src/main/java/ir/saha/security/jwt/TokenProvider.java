@@ -107,4 +107,12 @@ public class TokenProvider {
         }
         return false;
     }
+
+    public String getClimeByKey(String key,String token) {
+        Claims claims = Jwts.parser()
+            .setSigningKey(this.key)
+            .parseClaimsJws(token)
+            .getBody();
+        return  (String) claims.get(key);
+    }
 }
