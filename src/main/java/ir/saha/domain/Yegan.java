@@ -66,7 +66,18 @@ public class Yegan implements Serializable {
     @JsonIgnore
     private Set<Yegan> yegans = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    @OneToOne(mappedBy = "yegan")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    // jhipster-need@OneToOne(mappedBy = "user")le-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }

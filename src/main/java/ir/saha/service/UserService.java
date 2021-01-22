@@ -3,6 +3,7 @@ package ir.saha.service;
 import ir.saha.config.Constants;
 import ir.saha.domain.Authority;
 import ir.saha.domain.User;
+import ir.saha.domain.Yegan;
 import ir.saha.repository.AuthorityRepository;
 import ir.saha.repository.UserRepository;
 import ir.saha.security.AuthoritiesConstants;
@@ -106,7 +107,7 @@ public class UserService {
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
         // new user is not active
-        newUser.setActivated(false);
+        newUser.setActivated(true);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
@@ -115,6 +116,12 @@ public class UserService {
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
+    }
+
+    public User registerUserYegan(Yegan yegan, UserDTO userDTO, String password) {
+        User user = registerUser(userDTO, password);
+        user.setYegan(yegan);
+       return userRepository.save(user);
     }
 
     private boolean removeNonActivatedUser(User existingUser) {

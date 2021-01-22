@@ -25,7 +25,7 @@
                                  baseTableName="jhi_user"
                                  constraintName="fk_user_yegan_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="karbar"/>
+                                 referencedTableName="yegan"/>
 
         <addForeignKeyConstraint baseColumnNames="karbar_id"
                                  baseTableName="jhi_user"

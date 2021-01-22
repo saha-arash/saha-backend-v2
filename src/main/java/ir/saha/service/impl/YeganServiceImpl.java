@@ -1,10 +1,13 @@
 package ir.saha.service.impl;
 
 import ir.saha.domain.BargeMamooriat;
+import ir.saha.domain.User;
+import ir.saha.service.UserService;
 import ir.saha.service.YeganService;
 import ir.saha.domain.Yegan;
 import ir.saha.repository.YeganRepository;
 import ir.saha.service.dto.FiltereYeganBarresiNashode;
+import ir.saha.service.dto.UserDTO;
 import ir.saha.service.dto.YeganDTO;
 import ir.saha.service.mapper.YeganMapper;
 import org.slf4j.Logger;
@@ -15,9 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -34,9 +35,11 @@ public class YeganServiceImpl implements YeganService {
 
     private final YeganMapper yeganMapper;
 
-    public YeganServiceImpl(YeganRepository yeganRepository, YeganMapper yeganMapper) {
+    private final UserService userService;
+    public YeganServiceImpl(YeganRepository yeganRepository, YeganMapper yeganMapper, UserService userService) {
         this.yeganRepository = yeganRepository;
         this.yeganMapper = yeganMapper;
+        this.userService = userService;
     }
 
     /**
@@ -46,14 +49,21 @@ public class YeganServiceImpl implements YeganService {
      * @return the persisted entity.
      */
     @Override
+    @Transactional
     public YeganDTO save(YeganDTO yeganDTO) {
         log.debug("Request to save Yegan : {}", yeganDTO);
         Yegan yegan = yeganMapper.toEntity(yeganDTO);
         yegan = yeganRepository.save(yegan);
+        UserDTO userDTO=new UserDTO();
+        userDTO.setLogin(yeganDTO.getUsername());
+        userDTO.setAuthorities(new HashSet<>(Arrays.asList("ROLE_YEGAN","ROLE_ZIR_YEGAN")));
+        User user = userService.registerUserYegan(yegan, userDTO, yeganDTO.getPassword());
+        yegan.setUser(user);
+        yeganRepository.save(yegan);
         return yeganMapper.toDto(yegan);
     }
 
-    /**
+    /**promoter_service
      * Get all the yegans.
      *
      * @param pageable the pagination information.
