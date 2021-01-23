@@ -1,7 +1,11 @@
 package ir.saha.web.rest;
 
 import ir.saha.domain.Karbar;
+import ir.saha.domain.NirooCode;
+import ir.saha.domain.Yegan;
 import ir.saha.service.KarbarService;
+import ir.saha.service.dto.FilterKarbar;
+import ir.saha.service.dto.PayamDTO;
 import ir.saha.web.rest.errors.BadRequestAlertException;
 import ir.saha.service.dto.KarbarDTO;
 
@@ -117,6 +121,23 @@ public class KarbarResource {
         return ResponseUtil.wrapOrNotFound(karbarDTO);
     }
 
+    @GetMapping("/karbars/Search")
+    public ResponseEntity<List<KarbarDTO>> getKarbar(FilterKarbar filterKarbar) {
+        Karbar karbar=new Karbar();
+        karbar.setName(filterKarbar.getName());
+        karbar.setCodePerseneli(filterKarbar.getShomarePersonaly());
+        Yegan yegan=new Yegan();
+        yegan.setName(filterKarbar.getName());
+        yegan.setId(1l);
+        NirooCode nirooCode=new NirooCode();
+        nirooCode.setName(filterKarbar.getNiroo());
+        nirooCode.setId(1l);
+        yegan.setNirooCode(nirooCode);
+        karbar.setYegan(yegan);
+        Optional<List<KarbarDTO>> byExample = karbarService.findByExample(karbar);
+        return ResponseUtil.wrapOrNotFound(byExample);
+    }
+
     @GetMapping("/karbars/by-ids")
     public ResponseEntity<List<KarbarDTO>> getKarbar(@RequestParam List<Long> ids) {
         Optional<List<KarbarDTO>> karbarDTO = karbarService.findByIds(ids);
@@ -134,6 +155,20 @@ public class KarbarResource {
         Optional<List<KarbarDTO>> karbarDTO = karbarService.search(name);
         return ResponseUtil.wrapOrNotFound(karbarDTO);
     }
+
+    @GetMapping("/karbars/sandoghvoroodi")
+    public ResponseEntity<List<PayamDTO>> sandoghVoroodi() {
+        Optional<List<PayamDTO>> payamDTOS = karbarService.getPayamVoroodi();
+        return ResponseUtil.wrapOrNotFound(payamDTOS);
+    }
+
+
+    @GetMapping("/karbars/sandoghkhorooji")
+    public ResponseEntity<List<PayamDTO>> sandoghKhorooji() {
+        Optional<List<PayamDTO>> payamDTOS = karbarService.getPayamKhoorooji();
+        return ResponseUtil.wrapOrNotFound(payamDTOS);
+    }
+
 
     /**
      * {@code DELETE  /karbars/:id} : delete the "id" karbar.

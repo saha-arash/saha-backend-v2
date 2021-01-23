@@ -2,6 +2,7 @@ package ir.saha.service;
 
 import ir.saha.config.Constants;
 import ir.saha.domain.Authority;
+import ir.saha.domain.Karbar;
 import ir.saha.domain.User;
 import ir.saha.domain.Yegan;
 import ir.saha.repository.AuthorityRepository;
@@ -88,12 +89,6 @@ public class UserService {
                 throw new UsernameAlreadyUsedException();
             }
         });
-        userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
-            boolean removed = removeNonActivatedUser(existingUser);
-            if (!removed) {
-                throw new EmailAlreadyUsedException();
-            }
-        });
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getLogin().toLowerCase());
@@ -122,6 +117,11 @@ public class UserService {
         User user = registerUser(userDTO, password);
         user.setYegan(yegan);
        return userRepository.save(user);
+    }
+    public User registerUserKarbar(Karbar karbar, UserDTO userDTO, String password) {
+        User user = registerUser(userDTO, password);
+        user.setKarbar(karbar);
+        return userRepository.save(user);
     }
 
     private boolean removeNonActivatedUser(User existingUser) {

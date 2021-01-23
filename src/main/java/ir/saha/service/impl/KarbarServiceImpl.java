@@ -1,21 +1,27 @@
 package ir.saha.service.impl;
 
+import ir.saha.domain.User;
+import ir.saha.repository.UserRepository;
+import ir.saha.security.SecurityUtils;
 import ir.saha.service.KarbarService;
 import ir.saha.domain.Karbar;
 import ir.saha.repository.KarbarRepository;
+import ir.saha.service.UserService;
 import ir.saha.service.dto.KarbarDTO;
-import ir.saha.service.mapper.KarbarMapper;
+import ir.saha.service.dto.PayamDTO;
+import ir.saha.service.dto.UserDTO;
+import ir.saha.service.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -31,9 +37,15 @@ public class KarbarServiceImpl implements KarbarService {
 
     private final KarbarMapper karbarMapper;
 
-    public KarbarServiceImpl(KarbarRepository karbarRepository, KarbarMapper karbarMapper) {
+    private final UserService userService;
+
+    private  final UserRepository userRepository;
+
+    public KarbarServiceImpl(KarbarRepository karbarRepository, KarbarMapper karbarMapper, UserService userService, UserRepository userRepository) {
         this.karbarRepository = karbarRepository;
         this.karbarMapper = karbarMapper;
+        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -47,6 +59,13 @@ public class KarbarServiceImpl implements KarbarService {
         log.debug("Request to save Karbar : {}", karbarDTO);
         Karbar karbar = karbarMapper.toEntity(karbarDTO);
         karbar = karbarRepository.save(karbar);
+        UserDTO userDTO=new UserDTO();
+        userDTO.setLogin(karbarDTO.getUser());
+        Set<String> auth= new HashSet<String>(Arrays.asList("ROLE_USER"));
+        userDTO.setAuthorities(auth);
+        User user = userService.registerUserKarbar(karbar, userDTO, karbarDTO.getPass());
+        karbar.setUser(user);
+        karbarRepository.save(karbar);
         return karbarMapper.toDto(karbar);
     }
 
@@ -79,12 +98,27 @@ public class KarbarServiceImpl implements KarbarService {
      * @param id the id of the entity.
      * @return the entity.
      */
+    @Autowired
+    private DoreMapper doreMapper;
+    @Autowired
+    private MorkhasiMapper morkhasiMapper;
+    @Autowired
+    private NegahbaniMapper negahbaniMapper;
     @Override
     @Transactional(readOnly = true)
     public Optional<KarbarDTO> findOne(Long id) {
         log.debug("Request to get Karbar : {}", id);
         return karbarRepository.findOneWithEagerRelationships(id)
-            .map(karbarMapper::toDto);
+            .map(k->{
+                KarbarDTO karbarDTO = karbarMapper.toDto(k);
+                if (k.getDores()!=null)
+                karbarDTO.setDoreDTOS(k.getDores().stream().map(doreMapper::toDto).collect(Collectors.toSet()));
+                if (k.getMorkhasis()!=null)
+                karbarDTO.setMorkhasiDTOS(k.getMorkhasis().stream().map(morkhasiMapper::toDto).collect(Collectors.toSet()));
+                if (k.getNegahbanis()!=null)
+                karbarDTO.setNegahbanis(k.getNegahbanis().stream().map(negahbaniMapper::toDto).collect(Collectors.toSet()));
+                return karbarDTO;
+            });
     }
 
     /**
@@ -111,5 +145,49 @@ public class KarbarServiceImpl implements KarbarService {
     @Override
     public Optional<List<KarbarDTO>> search(String name) {
         return Optional.of(karbarRepository.serachByName(name).stream().map(karbarMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @Autowired
+    private PayamMapper payamMapper;
+    @Override
+    public Optional<List<PayamDTO>> getPayamVoroodi() {
+        String user = SecurityUtils.getCurrentUserLogin().get();
+        User userResult = userRepository.findOneByLogin(user).get();
+        if (userResult.getKarbar()==null){
+            if (userResult.getYegan().getSandoghVoroodis()!=null){
+                return Optional.of(userResult.getYegan().getSandoghVoroodis().stream().map(p->{
+                    PayamDTO payamDTO = payamMapper.toDto(p);
+                    return payamDTO;
+                }).collect(Collectors.toList()));
+            } else return Optional.empty();
+        }
+
+        if (userResult.getKarbar().getSandoghVoroodis()!=null){
+                return Optional.of(userResult.getKarbar().getSandoghVoroodis().stream().map(p->{
+                    PayamDTO payamDTO = payamMapper.toDto(p);
+                    return payamDTO;
+                }).collect(Collectors.toList()));
+            } else return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<PayamDTO>> getPayamKhoorooji() {
+        String user = SecurityUtils.getCurrentUserLogin().get();
+        User userResult = userRepository.findOneByLogin(user).get();
+        if (userResult.getKarbar()==null){
+            if (userResult.getYegan().getSnadoghKhoroojis()!=null){
+                return Optional.of(userResult.getYegan().getSnadoghKhoroojis().stream().map(p->{
+                    PayamDTO payamDTO = payamMapper.toDto(p);
+                    return payamDTO;
+                }).collect(Collectors.toList()));
+            } else return Optional.empty();
+        }
+
+        if (userResult.getKarbar().getSnadoghKhoroojis()!=null){
+            return Optional.of(userResult.getKarbar().getSnadoghKhoroojis().stream().map(p->{
+                PayamDTO payamDTO = payamMapper.toDto(p);
+                return payamDTO;
+            }).collect(Collectors.toList()));
+        } else return Optional.empty();
     }
 }

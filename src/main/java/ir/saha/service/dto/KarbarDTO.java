@@ -1,5 +1,7 @@
 package ir.saha.service.dto;
 
+import ir.saha.domain.Negahbani;
+
 import java.time.Instant;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -29,10 +31,18 @@ public class KarbarDTO implements Serializable {
 
     private Instant tarikhEstekhdam;
 
+    private String user;
+    private String pass;
 
     private Set<BargeMamooriatDTO> bargeMamoorits = new HashSet<>();
 
     private Set<BargeMamooriatDTO> binanadeBargeMamoorits = new HashSet<>();
+
+    private Set<MorkhasiDTO> morkhasiDTOS=new HashSet<>();
+
+    private Set<DoreDTO> doreDTOS=new HashSet<>();
+
+    private Set<NegahbaniDTO> negahbanis=new HashSet<>();
 
     private Long yeganId;
 
@@ -41,6 +51,47 @@ public class KarbarDTO implements Serializable {
     private Long darajeId;
 
     private Long sematId;
+
+
+    public Set<MorkhasiDTO> getMorkhasiDTOS() {
+        return morkhasiDTOS;
+    }
+
+    public void setMorkhasiDTOS(Set<MorkhasiDTO> morkhasiDTOS) {
+        this.morkhasiDTOS = morkhasiDTOS;
+    }
+
+    public Set<DoreDTO> getDoreDTOS() {
+        return doreDTOS;
+    }
+
+    public void setDoreDTOS(Set<DoreDTO> doreDTOS) {
+        this.doreDTOS = doreDTOS;
+    }
+
+    public Set<NegahbaniDTO> getNegahbanis() {
+        return negahbanis;
+    }
+
+    public void setNegahbanis(Set<NegahbaniDTO> negahbanis) {
+        this.negahbanis = negahbanis;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
 
     public Long getId() {
         return id;

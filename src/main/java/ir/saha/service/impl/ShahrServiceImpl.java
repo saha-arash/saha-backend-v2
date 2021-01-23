@@ -13,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Shahr}.
@@ -84,5 +86,10 @@ public class ShahrServiceImpl implements ShahrService {
     public void delete(Long id) {
         log.debug("Request to delete Shahr : {}", id);
         shahrRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ShahrDTO> search(String name) {
+        return shahrRepository.findNameLike(name).stream().map(shahrMapper::toDto).collect(Collectors.toList());
     }
 }

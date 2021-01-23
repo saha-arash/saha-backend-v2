@@ -97,6 +97,13 @@ public class ShahrResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/shahrs/search")
+    public ResponseEntity<List<ShahrDTO>> shahr(@RequestParam(name = "name") String name) {
+        log.debug("REST request to get a page of Shahrs");
+        List<ShahrDTO> page = shahrService.search(name);
+        return ResponseEntity.ok().body(page);
+    }
+
     /**
      * {@code GET  /shahrs/:id} : get the "id" shahr.
      *
