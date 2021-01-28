@@ -89,7 +89,7 @@ public class ShahrServiceImpl implements ShahrService {
     }
 
     @Override
-    public List<ShahrDTO> search(String name) {
-        return shahrRepository.findNameLike(name).stream().map(shahrMapper::toDto).collect(Collectors.toList());
+    public Page<ShahrDTO> search(String name,Pageable pageable) {
+        return shahrRepository.findNameLike(name,pageable).map(shahrMapper::toDto);
     }
 }

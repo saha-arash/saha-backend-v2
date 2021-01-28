@@ -40,12 +40,18 @@ public class KarbarServiceImpl implements KarbarService {
     private final UserService userService;
 
     private  final UserRepository userRepository;
+    private  final DarajeMapper darajeMapper;
+    private  final SematMapper sematMapper;
+    private  final YeganMapper yeganMapper;
 
-    public KarbarServiceImpl(KarbarRepository karbarRepository, KarbarMapper karbarMapper, UserService userService, UserRepository userRepository) {
+    public KarbarServiceImpl(KarbarRepository karbarRepository, KarbarMapper karbarMapper, UserService userService, UserRepository userRepository, DarajeMapper darajeMapper, SematMapper sematMapper, YeganMapper yeganMapper) {
         this.karbarRepository = karbarRepository;
         this.karbarMapper = karbarMapper;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.darajeMapper = darajeMapper;
+        this.sematMapper = sematMapper;
+        this.yeganMapper = yeganMapper;
     }
 
     /**
@@ -117,6 +123,11 @@ public class KarbarServiceImpl implements KarbarService {
                 karbarDTO.setMorkhasiDTOS(k.getMorkhasis().stream().map(morkhasiMapper::toDto).collect(Collectors.toSet()));
                 if (k.getNegahbanis()!=null)
                 karbarDTO.setNegahbanis(k.getNegahbanis().stream().map(negahbaniMapper::toDto).collect(Collectors.toSet()));
+
+                karbarDTO.setDarajeDTO(darajeMapper.toDto(k.getDaraje()));
+                karbarDTO.setYeganDTO(yeganMapper.toDto(k.getYegan()));
+                karbarDTO.setSematDTO(sematMapper.toDto(k.getSemat()));
+
                 return karbarDTO;
             });
     }

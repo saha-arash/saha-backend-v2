@@ -52,6 +52,35 @@ public class KarbarDTO implements Serializable {
 
     private Long sematId;
 
+    private YeganDTO yeganDTO;
+
+    private DarajeDTO darajeDTO;
+
+    private SematDTO sematDTO;
+
+    public YeganDTO getYeganDTO() {
+        return yeganDTO;
+    }
+
+    public void setYeganDTO(YeganDTO yeganDTO) {
+        this.yeganDTO = yeganDTO;
+    }
+
+    public DarajeDTO getDarajeDTO() {
+        return darajeDTO;
+    }
+
+    public void setDarajeDTO(DarajeDTO darajeDTO) {
+        this.darajeDTO = darajeDTO;
+    }
+
+    public SematDTO getSematDTO() {
+        return sematDTO;
+    }
+
+    public void setSematDTO(SematDTO sematDTO) {
+        this.sematDTO = sematDTO;
+    }
 
     public Set<MorkhasiDTO> getMorkhasiDTOS() {
         return morkhasiDTOS;

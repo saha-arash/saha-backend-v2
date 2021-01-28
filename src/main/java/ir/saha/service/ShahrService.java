@@ -44,5 +44,5 @@ public interface ShahrService {
      */
     void delete(Long id);
 
-    List<ShahrDTO> search(String name);
+    Page<ShahrDTO> search(String name,Pageable pageable);
 }

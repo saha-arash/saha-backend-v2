@@ -16,9 +16,11 @@ public interface KarbarMapper extends EntityMapper<KarbarDTO, Karbar> {
     @Mapping(source = "yeganCode.id", target = "yeganCodeId")
     @Mapping(source = "daraje.id", target = "darajeId")
     @Mapping(source = "semat.id", target = "sematId")
+    @Mapping(target = "user", ignore = true)
     KarbarDTO toDto(Karbar karbar);
 
     @Mapping(target = "morkhasis", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "removeMorkhasi", ignore = true)
     @Mapping(target = "dores", ignore = true)
     @Mapping(target = "removeDore", ignore = true)
