@@ -7,6 +7,16 @@ public class FiltereYeganBarresiNashode {
     private  Long ostan;
     private Long niroo;
     private  Long mantaghe;
+    private  boolean kharejAzMahdoode;
+
+
+    public boolean isKharejAzMahdoode() {
+        return kharejAzMahdoode;
+    }
+
+    public void setKharejAzMahdoode(boolean kharejAzMahdoode) {
+        this.kharejAzMahdoode = kharejAzMahdoode;
+    }
 
     public Integer getSal() {
         return sal;

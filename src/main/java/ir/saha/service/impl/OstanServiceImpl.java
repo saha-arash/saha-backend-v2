@@ -4,6 +4,7 @@ import ir.saha.service.OstanService;
 import ir.saha.domain.Ostan;
 import ir.saha.repository.OstanRepository;
 import ir.saha.service.dto.OstanDTO;
+import ir.saha.service.dto.ShahrDTO;
 import ir.saha.service.mapper.OstanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,5 +85,10 @@ public class OstanServiceImpl implements OstanService {
     public void delete(Long id) {
         log.debug("Request to delete Ostan : {}", id);
         ostanRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<OstanDTO> search(String name, Pageable pageable) {
+        return ostanRepository.findNameLike(name,pageable).map(ostanMapper::toDto);
     }
 }

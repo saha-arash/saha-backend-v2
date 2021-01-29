@@ -97,6 +97,14 @@ public class OstanResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/ostans/search")
+    public ResponseEntity<List<OstanDTO>> search(@RequestParam(name="name")String name,Pageable pageable) {
+        log.debug("REST request to get a page of Ostans");
+        Page<OstanDTO> page = ostanService.search(name,pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     /**
      * {@code GET  /ostans/:id} : get the "id" ostan.
      *

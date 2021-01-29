@@ -101,7 +101,7 @@ public class YeganResource {
             .filter(y -> {
                 if (yeganFilter.getName() == null) {
                     return true;
-                } else return yeganFilter.getName().equals(y.getName());
+                } else return yeganFilter.getName().contains(y.getName());
             }).filter(y -> {
                 if (yeganFilter.getCode() == null) {
                     return true;

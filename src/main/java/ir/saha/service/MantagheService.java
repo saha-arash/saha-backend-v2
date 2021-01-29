@@ -43,4 +43,6 @@ public interface MantagheService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<MantagheDTO> search(String name, Pageable pageable);
 }

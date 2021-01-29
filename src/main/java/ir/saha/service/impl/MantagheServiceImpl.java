@@ -4,6 +4,7 @@ import ir.saha.service.MantagheService;
 import ir.saha.domain.Mantaghe;
 import ir.saha.repository.MantagheRepository;
 import ir.saha.service.dto.MantagheDTO;
+import ir.saha.service.dto.OstanDTO;
 import ir.saha.service.mapper.MantagheMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,5 +87,10 @@ public class MantagheServiceImpl implements MantagheService {
     public void delete(Long id) {
         log.debug("Request to delete Mantaghe : {}", id);
         mantagheRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<MantagheDTO> search(String name, Pageable pageable) {
+        return mantagheRepository.findNameLike(name,pageable).map(mantagheMapper::toDto);
     }
 }

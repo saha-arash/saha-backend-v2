@@ -98,10 +98,11 @@ public class ShahrResource {
     }
 
     @GetMapping("/shahrs/search")
-    public ResponseEntity<List<ShahrDTO>> shahr(@RequestParam(name = "name") String name) {
+    public ResponseEntity<List<ShahrDTO>> shahr(Pageable pageable,@RequestParam(name = "name") String name) {
         log.debug("REST request to get a page of Shahrs");
-        List<ShahrDTO> page = shahrService.search(name);
-        return ResponseEntity.ok().body(page);
+        Page<ShahrDTO> page = shahrService.search(name,pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**

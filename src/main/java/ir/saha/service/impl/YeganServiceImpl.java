@@ -9,7 +9,10 @@ import ir.saha.repository.YeganRepository;
 import ir.saha.service.dto.FiltereYeganBarresiNashode;
 import ir.saha.service.dto.UserDTO;
 import ir.saha.service.dto.YeganDTO;
+import ir.saha.service.mapper.NirooCodeMapper;
+import ir.saha.service.mapper.ShahrMapper;
 import ir.saha.service.mapper.YeganMapper;
+import ir.saha.service.mapper.YeganTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,10 +39,19 @@ public class YeganServiceImpl implements YeganService {
     private final YeganMapper yeganMapper;
 
     private final UserService userService;
-    public YeganServiceImpl(YeganRepository yeganRepository, YeganMapper yeganMapper, UserService userService) {
+    private final YeganTypeMapper yeganTypeMapper;
+    private final ShahrMapper shahrMapper;
+    private final NirooCodeMapper nirooCodeMapper;
+
+
+
+    public YeganServiceImpl(YeganRepository yeganRepository, YeganMapper yeganMapper, UserService userService, YeganTypeMapper yeganTypeMapper, ShahrMapper shahrMapper, NirooCodeMapper nirooCodeMapper) {
         this.yeganRepository = yeganRepository;
         this.yeganMapper = yeganMapper;
         this.userService = userService;
+        this.yeganTypeMapper = yeganTypeMapper;
+        this.shahrMapper = shahrMapper;
+        this.nirooCodeMapper = nirooCodeMapper;
     }
 
     /**
@@ -118,7 +130,13 @@ public class YeganServiceImpl implements YeganService {
     public Optional<YeganDTO> findOne(Long id) {
         log.debug("Request to get Yegan : {}", id);
         return yeganRepository.findOneWithEagerRelationships(id)
-            .map(yeganMapper::toDto);
+            .map(y->{
+                YeganDTO yeganDTO = yeganMapper.toDto(y);
+                yeganDTO.setYeganTypeDTO(yeganTypeMapper.toDto(y.getYeganType()));
+                yeganDTO.setShahrDTO(shahrMapper.toDto(y.getShahr()));
+                yeganDTO.setNirooCodeDTO(nirooCodeMapper.toDto(y.getNirooCode()));
+                return yeganDTO;
+            });
     }
 
     /**
@@ -136,6 +154,11 @@ public class YeganServiceImpl implements YeganService {
     public Optional<List<YeganDTO>> findYeganBarresiNashode(FiltereYeganBarresiNashode filtereYeganBarresiNashode) {
         return Optional.of(yeganRepository.findAll()
             .stream().filter(y->{
+                if (!filtereYeganBarresiNashode.isKharejAzMahdoode()){
+                    return true;
+                }
+                return !y.getShahr().getName().equals("تهران");
+            }).filter(y->{
                 if (filtereYeganBarresiNashode.getSal()==null){
                     return true;
                 }
