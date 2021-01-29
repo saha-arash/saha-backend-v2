@@ -157,16 +157,18 @@ public class KarbarResource {
     }
 
     @GetMapping("/karbars/sandoghvoroodi")
-    public ResponseEntity<List<PayamDTO>> sandoghVoroodi() {
-        Optional<List<PayamDTO>> payamDTOS = karbarService.getPayamVoroodi();
-        return ResponseUtil.wrapOrNotFound(payamDTOS);
+    public ResponseEntity<List<PayamDTO>> sandoghVoroodi(Pageable pageable) {
+        Page<PayamDTO> payamDTOS = karbarService.getPayamVoroodi(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), payamDTOS);
+        return ResponseEntity.ok().headers(headers).body(payamDTOS.getContent());
     }
 
 
     @GetMapping("/karbars/sandoghkhorooji")
-    public ResponseEntity<List<PayamDTO>> sandoghKhorooji() {
-        Optional<List<PayamDTO>> payamDTOS = karbarService.getPayamKhoorooji();
-        return ResponseUtil.wrapOrNotFound(payamDTOS);
+    public ResponseEntity<List<PayamDTO>> sandoghKhorooji(Pageable pageable) {
+        Page<PayamDTO> payamDTOS = karbarService.getPayamKhoorooji(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), payamDTOS);
+        return ResponseEntity.ok().headers(headers).body(payamDTOS.getContent());
     }
 
 

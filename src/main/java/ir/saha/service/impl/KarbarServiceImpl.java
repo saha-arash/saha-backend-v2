@@ -1,5 +1,6 @@
 package ir.saha.service.impl;
 
+import ir.saha.domain.Payam;
 import ir.saha.domain.User;
 import ir.saha.repository.UserRepository;
 import ir.saha.security.SecurityUtils;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -161,44 +163,67 @@ public class KarbarServiceImpl implements KarbarService {
     @Autowired
     private PayamMapper payamMapper;
     @Override
-    public Optional<List<PayamDTO>> getPayamVoroodi() {
+    public Page<PayamDTO> getPayamVoroodi(Pageable pageable) {
         String user = SecurityUtils.getCurrentUserLogin().get();
         User userResult = userRepository.findOneByLogin(user).get();
+        List<PayamDTO> collect=new ArrayList<>();
+        int resultSize;
         if (userResult.getKarbar()==null){
             if (userResult.getYegan().getSandoghVoroodis()!=null){
-                return Optional.of(userResult.getYegan().getSandoghVoroodis().stream().map(p->{
+                Set<Payam> result = userResult.getYegan().getSandoghVoroodis();
+                resultSize=result.size();
+                collect=result.stream().map(p -> {
                     PayamDTO payamDTO = payamMapper.toDto(p);
                     return payamDTO;
-                }).collect(Collectors.toList()));
-            } else return Optional.empty();
+                }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                    .limit(pageable.getPageSize()).collect(Collectors.toList());
+            } else return  new PageImpl<>(collect, pageable, 0);
         }
 
+
+
         if (userResult.getKarbar().getSandoghVoroodis()!=null){
-                return Optional.of(userResult.getKarbar().getSandoghVoroodis().stream().map(p->{
+            Set<Payam> result = userResult.getKarbar().getSandoghVoroodis();
+           resultSize = result.size();
+            result.stream().map(p->{
                     PayamDTO payamDTO = payamMapper.toDto(p);
                     return payamDTO;
-                }).collect(Collectors.toList()));
-            } else return Optional.empty();
+                }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                    .limit(pageable.getPageSize()).collect(Collectors.toList());
+            } else return  new PageImpl<>(collect, pageable, 0);
+        return new PageImpl<>(collect, pageable, resultSize);
+
     }
 
     @Override
-    public Optional<List<PayamDTO>> getPayamKhoorooji() {
+    public Page<PayamDTO> getPayamKhoorooji(Pageable pageable) {
         String user = SecurityUtils.getCurrentUserLogin().get();
         User userResult = userRepository.findOneByLogin(user).get();
+        List<PayamDTO> collect=new ArrayList<>();
+        int resultSize;
         if (userResult.getKarbar()==null){
             if (userResult.getYegan().getSnadoghKhoroojis()!=null){
-                return Optional.of(userResult.getYegan().getSnadoghKhoroojis().stream().map(p->{
+                Set<Payam> result = userResult.getYegan().getSnadoghKhoroojis();
+                resultSize=result.size();
+                collect=result.stream().map(p -> {
                     PayamDTO payamDTO = payamMapper.toDto(p);
                     return payamDTO;
-                }).collect(Collectors.toList()));
-            } else return Optional.empty();
+                }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                    .limit(pageable.getPageSize()).collect(Collectors.toList());
+            } else return  new PageImpl<>(collect, pageable, 0);
         }
 
+
+
         if (userResult.getKarbar().getSnadoghKhoroojis()!=null){
-            return Optional.of(userResult.getKarbar().getSnadoghKhoroojis().stream().map(p->{
+            Set<Payam> result = userResult.getKarbar().getSnadoghKhoroojis();
+            resultSize = result.size();
+            result.stream().map(p->{
                 PayamDTO payamDTO = payamMapper.toDto(p);
                 return payamDTO;
-            }).collect(Collectors.toList()));
-        } else return Optional.empty();
+            }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                .limit(pageable.getPageSize()).collect(Collectors.toList());
+        } else return  new PageImpl<>(collect, pageable, 0);
+        return new PageImpl<>(collect, pageable, resultSize);
     }
 }
