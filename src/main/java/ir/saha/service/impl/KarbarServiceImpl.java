@@ -185,7 +185,7 @@ public class KarbarServiceImpl implements KarbarService {
         if (userResult.getKarbar().getSandoghVoroodis()!=null){
             Set<Payam> result = userResult.getKarbar().getSandoghVoroodis();
            resultSize = result.size();
-            result.stream().map(p->{
+            collect=result.stream().map(p->{
                     PayamDTO payamDTO = payamMapper.toDto(p);
                     return payamDTO;
                 }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
