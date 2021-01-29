@@ -124,7 +124,7 @@ public class YeganResource {
                 } else
                     return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().compareTo(NoeBarnameHesabResi.HESABRESI_BARNAMEE) == 1);
             }).filter(y -> {
-                if (!yeganFilter.isJahateHesabResi()) {
+                if (!yeganFilter.isJahatePeygiri()) {
                     return true;
                 } else
                     return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().compareTo(NoeBarnameHesabResi.HESABRESI_PEYGIRI) == 1);
@@ -139,7 +139,7 @@ public class YeganResource {
                 } else
                     return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getVaziateHesabResi().compareTo(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN) == 1);
             }).filter(y -> {
-                if (!yeganFilter.isHesabresiShode()) {
+                if (!yeganFilter.isHesabresiNashodeShode()) {
                     return true;
                 } else
                     return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getVaziateHesabResi().compareTo(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN) == 0);
