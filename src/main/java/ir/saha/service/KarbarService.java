@@ -59,8 +59,8 @@ public interface KarbarService {
 
     Optional<List<KarbarDTO>> search(String name);
 
-    Optional<List<PayamDTO>> getPayamVoroodi();
+    Page<PayamDTO> getPayamVoroodi(Pageable pageable);
 
 
-    Optional<List<PayamDTO>> getPayamKhoorooji();
+    Page<PayamDTO> getPayamKhoorooji(Pageable pageable);
 }
