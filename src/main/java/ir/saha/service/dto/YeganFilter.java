@@ -11,6 +11,15 @@ public class YeganFilter {
     private boolean jahatePeygiri;
     private boolean hesabresiShode;
     private boolean hesabresiNashodeShode;
+    private  boolean kharejAzMahdoode;
+
+    public boolean isKharejAzMahdoode() {
+        return kharejAzMahdoode;
+    }
+
+    public void setKharejAzMahdoode(boolean kharejAzMahdoode) {
+        this.kharejAzMahdoode = kharejAzMahdoode;
+    }
 
     public boolean isHesabresiShode() {
         return hesabresiShode;

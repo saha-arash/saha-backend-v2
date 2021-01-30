@@ -98,6 +98,12 @@ public class YeganResource {
 
 
         List<YeganDTO> collect = yeganService.findAll().stream()
+            .filter(y-> {
+                if (!yeganFilter.isKharejAzMahdoode()) {
+                    return true;
+                }
+                return !y.getShahr().getName().equals("تهران");
+            })
             .filter(y -> {
                 if (yeganFilter.getName() == null) {
                     return true;
