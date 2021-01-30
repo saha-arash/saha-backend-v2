@@ -99,7 +99,7 @@ public class YeganResource {
 
         List<YeganDTO> collect = yeganService.findAll().stream()
             .filter(y-> {
-                if (!yeganFilter.isKharejAzMahdoode()) {
+                if (!yeganFilter.isKharejAzMarkaz()) {
                     return true;
                 }
                 return !y.getShahr().getName().equals("تهران");
