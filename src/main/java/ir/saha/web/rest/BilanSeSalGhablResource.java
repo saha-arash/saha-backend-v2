@@ -14,10 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -128,5 +132,16 @@ public class BilanSeSalGhablResource {
         log.debug("REST request to delete BilanSeSalGhabl : {}", id);
         bilanSeSalGhablService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+    }
+
+    @GetMapping(path = "/sesal/excel/{sal}")
+    public ResponseEntity<byte[]> download(@PathVariable(name = "sal") String sal) throws IOException {
+        // ...
+
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("2-بیلان3سال_گذشته.xlsx");
+
+        //        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).body(StreamUtils.copyToByteArray(inputStream));
     }
 }
