@@ -10,14 +10,12 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -135,13 +133,17 @@ public class BilanSeSalGhablResource {
     }
 
     @GetMapping(path = "/sesal/excel/{sal}")
-    public ResponseEntity<byte[]> download(@PathVariable(name = "sal") String sal) throws IOException {
+    public ResponseEntity<InputStreamResource>  download(@PathVariable(name = "sal") String sal) throws IOException {
         // ...
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream("2-بیلان3سال_گذشته.xlsx");
 
         //        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).body(StreamUtils.copyToByteArray(inputStream));
+        return ResponseEntity.ok().contentLength(inputStream.available())
+            .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+            .cacheControl(CacheControl.noCache())
+            .header("Content-Disposition", "attachment; filename=" + "SYSTEM_GENERATED_FILE_NM")
+            .body(new InputStreamResource(inputStream));
     }
 }
