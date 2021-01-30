@@ -26,7 +26,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing {@link ir.saha.domain.BilanSalGhabl}.
@@ -139,7 +138,7 @@ public class BilanSalGhablResource {
         // ...
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("بيلان97.xlsx");
+        InputStream inputStream = classLoader.getResourceAsStream("97kalle.xlsx");
 
         //        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM).body(StreamUtils.copyToByteArray(inputStream));
