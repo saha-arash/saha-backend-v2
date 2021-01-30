@@ -133,7 +133,7 @@ public class BilanSeSalGhablResource {
     }
 
     @GetMapping(path = "/sesal/excel/{sal}")
-    public ResponseEntity<byte[]> download(@PathVariable(name = "sal") String sal) throws IOException {
+    public ResponseEntity<InputStreamResource>  download(@PathVariable(name = "sal") String sal) throws IOException {
         // ...
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
