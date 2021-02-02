@@ -2,6 +2,7 @@ package ir.saha.service.dto;
 
 public class YeganFilter {
     private String name;
+    private Long hesabresiId;
     private Long nirooCodeId;
     private Long ostanId;
     private Long shahrId;
@@ -12,6 +13,14 @@ public class YeganFilter {
     private boolean hesabresiShode;
     private boolean hesabresiNashodeShode;
     private  boolean kharejAzMarkaz;
+
+    public Long getHesabresiId() {
+        return hesabresiId;
+    }
+
+    public void setHesabresiId(Long hesabresiId) {
+        this.hesabresiId = hesabresiId;
+    }
 
     public boolean isKharejAzMarkaz() {
         return kharejAzMarkaz;
