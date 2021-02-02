@@ -1,7 +1,9 @@
 package ir.saha.web.rest;
 
+import ir.saha.domain.Yegan;
 import ir.saha.domain.enumeration.NoeBarnameHesabResi;
 import ir.saha.domain.enumeration.VaziateHesabResi;
+import ir.saha.repository.HesabResiRepository;
 import ir.saha.service.YeganService;
 import ir.saha.service.dto.FiltereYeganBarresiNashode;
 import ir.saha.service.dto.YeganFilter;
@@ -45,10 +47,13 @@ public class YeganResource {
 
     private final YeganService yeganService;
     private final YeganMapper yeganMapper;
+    private final HesabResiRepository hesabResiRepository;
 
-    public YeganResource(YeganService yeganService, YeganMapper yeganMapper) {
+
+    public YeganResource(YeganService yeganService, YeganMapper yeganMapper, HesabResiRepository hesabResiRepository) {
         this.yeganService = yeganService;
         this.yeganMapper = yeganMapper;
+        this.hesabResiRepository = hesabResiRepository;
     }
 
     /**
@@ -96,9 +101,16 @@ public class YeganResource {
     @Transactional
     public ResponseEntity<List<YeganDTO>> getAllYegans(Pageable pageable, YeganFilter yeganFilter) {
 
-
-        List<YeganDTO> collect = yeganService.findAll().stream()
-            .filter(y-> {
+        List<Yegan> collect=null;
+        if (yeganFilter.getHesabresiId()!=null){
+            collect = hesabResiRepository.findById(yeganFilter
+                .getHesabresiId()).get().getBargeMamooriats()
+                .stream().map(bm -> bm.getYegan()).collect(Collectors.toList());
+        }else {
+            collect = yeganService.findAll();
+        }
+        List<YeganDTO> result = collect.stream()
+            .filter(y -> {
                 if (!yeganFilter.isKharejAzMarkaz()) {
                     return true;
                 }
@@ -150,7 +162,7 @@ public class YeganResource {
                 } else
                     return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getVaziateHesabResi().compareTo(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN) == 0);
             }).map(yeganMapper::toDto).collect(Collectors.toList());
-        PageImpl<YeganDTO> yegans = new PageImpl<>(collect, pageable, 1000);
+        PageImpl<YeganDTO> yegans = new PageImpl<>(result, pageable, 1000);
         HttpHeaders httpHeaders = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), yegans);
         return ResponseEntity.ok().headers(httpHeaders).body(yegans.getContent());
     }
