@@ -547,6 +547,8 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
                 BargeMamooriatDTO bargeMamooriatDTO = bargeMamooriatMapper.toDto(b);
                 bargeMamooriatDTO.setNafarat(b.getNafars().stream().map(b1->b1.getId()).collect(Collectors.toList()));
                 bargeMamooriatDTO.setBinandegan(b.getBinandes().stream().map(b1->b1.getId()).collect(Collectors.toList()));
+                bargeMamooriatDTO.setSarparatDTO(karbarMapper.toDto(b.getSarparast()));
+                bargeMamooriatDTO.setYeganDTO(yeganMapper.toDto(b.getYegan()));
                 return bargeMamooriatDTO;
             })
             .collect(Collectors.toList());
