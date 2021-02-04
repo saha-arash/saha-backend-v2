@@ -28,9 +28,14 @@ import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+//@RestController
 public class BarChart {
 
+
+    @GetMapping
     public static void main(String[] args) throws IOException {
         try (XSSFWorkbook wb = new XSSFWorkbook()) {
             XSSFSheet sheet = wb.createSheet("barchart");
