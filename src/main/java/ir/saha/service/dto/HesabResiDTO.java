@@ -15,6 +15,7 @@ public class HesabResiDTO implements Serializable {
 
     private VaziateHesabResi vaziateHesabResi;
 
+    private Long tedadRoozayeTatilSal;
 
     private Long gozareshId;
 
@@ -47,6 +48,15 @@ public class HesabResiDTO implements Serializable {
     private Long gardeshKarId;
 
     private Long barnameHesabResiId;
+
+
+    public Long getTedadRoozayeTatilSal() {
+        return tedadRoozayeTatilSal;
+    }
+
+    public void setTedadRoozayeTatilSal(Long tedadRoozayeTatilSal) {
+        this.tedadRoozayeTatilSal = tedadRoozayeTatilSal;
+    }
 
     public Long getId() {
         return id;
