@@ -69,5 +69,6 @@
     <include file="config/liquibase/changelog/20210119113300_added_column_user_id.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210149113300_added_column_file_name_to_file_mamooriat.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210150113300_drop_email_constrain.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210205113300_added_column_roozetatilSal.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
