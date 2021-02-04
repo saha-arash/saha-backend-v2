@@ -13,7 +13,7 @@
     -->
     <changeSet id="20210110113300-1" author="jhipster">
         <addColumn tableName="hesab_resi">
-            <column name="tedadRoozayeTatilSal" type="bigint">
+            <column name="tedad_roozaye_tatil_sal" type="bigint">
             </column>
         </addColumn>
     </changeSet>
