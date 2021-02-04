@@ -25,6 +25,9 @@ public class HesabResi implements Serializable {
     @Column(name = "sal")
     private Integer sal;
 
+    @Column(name = "sal")
+    private Long tedadRoozayeTatilSal;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "vaziate_hesab_resi")
     private VaziateHesabResi vaziateHesabResi;
@@ -407,6 +410,14 @@ public class HesabResi implements Serializable {
     @Override
     public int hashCode() {
         return 31;
+    }
+
+    public Long getTedadRoozayeTatilSal() {
+        return tedadRoozayeTatilSal;
+    }
+
+    public void setTedadRoozayeTatilSal(Long tedadRoozayeTatilSal) {
+        this.tedadRoozayeTatilSal = tedadRoozayeTatilSal;
     }
 
     @Override
