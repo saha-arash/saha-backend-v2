@@ -1,6 +1,13 @@
 package ir.saha.web.rest;
 
 import java.io.FileOutputStream;
+import java.util.List;
+
+import ir.saha.domain.HesabResi;
+import ir.saha.domain.NirooCode;
+import ir.saha.domain.Yegan;
+import ir.saha.repository.HesabResiRepository;
+import ir.saha.repository.NirooCodeRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -26,10 +33,24 @@ import org.openxmlformats.schemas.drawingml.x2006.chart.STBarDir;
 import org.openxmlformats.schemas.drawingml.x2006.chart.STOrientation;
 import org.openxmlformats.schemas.drawingml.x2006.chart.STLegendPos;
 import org.openxmlformats.schemas.drawingml.x2006.chart.STTickLblPos;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("/api")
 public class BarChart {
 
-    public static void main(String[] args) throws Exception {
+    @Autowired
+    private NirooCodeRepository nirooCodeRepository;
+
+
+    @Autowired
+    private HesabResiRepository hesabResiRepository;
+    @GetMapping("/excel")
+    public  void bilanSalGhable(@RequestParam(name="sal") int sal) throws Exception {
         Workbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet("Sheet1");
 
@@ -38,19 +59,24 @@ public class BarChart {
 
         row = sheet.createRow(0);
         row.createCell(0);
-        row.createCell(1).setCellValue("HEADER 1");
-        row.createCell(2).setCellValue("HEADER 2");
-        row.createCell(3).setCellValue("HEADER 3");
+        row.createCell(10).setCellValue("شرح");
+        row.createCell(9).setCellValue("مدت ماموریت پیشبینی شده");
+        row.createCell(8).setCellValue("مدت ماموریت انجام شده");
 
-        for (int r = 1; r < 5; r++) {
+        List<NirooCode> all = nirooCodeRepository.findAll();
+        for (int r = 0; r < all.size(); r++) {
+            NirooCode nirooCode = all.get(r);
             row = sheet.createRow(r);
-            cell = row.createCell(0);
-            cell.setCellValue("Serie " + r);
-            cell = row.createCell(1);
-            cell.setCellValue(new java.util.Random().nextDouble());
-            cell = row.createCell(2);
-            cell.setCellValue(new java.util.Random().nextDouble());
-            cell = row.createCell(3);
+            cell = row.createCell(10);
+            cell.setCellValue(nirooCode.getName());
+            int totalKarbarSize=0;
+            for (Yegan yegan : nirooCode.getYegans()) {
+                totalKarbarSize=totalKarbarSize+yegan.getKarbars().size();
+            }
+            HesabResi allBySal = hesabResiRepository.findAllBySal(sal);
+            cell = row.createCell(9);
+            cell.setCellValue(totalKarbarSize*(365-allBySal.getTedadRoozayeTatilSal()));
+            cell = row.createCell(8);
             cell.setCellValue(new java.util.Random().nextDouble());
         }
 

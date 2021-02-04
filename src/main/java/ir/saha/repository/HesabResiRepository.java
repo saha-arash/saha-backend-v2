@@ -12,4 +12,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HesabResiRepository extends JpaRepository<HesabResi, Long> {
 
+    HesabResi findAllBySal(Integer sal);
 }
