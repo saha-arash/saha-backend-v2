@@ -12,11 +12,9 @@
         Added the entity BargeMamooriat.
     -->
     <changeSet id="20210110113300-1" author="jhipster">
-        <addColumn tableName="file_barge_mamooriat">
-            <column name="file_name" type="varchar(255)">
-                <constraints nullable="true" />
+        <addColumn tableName="hesab_resi">
+            <column name="tedadRoozayeTatilSal" type="bigint">
             </column>
-            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </addColumn>
     </changeSet>
 
