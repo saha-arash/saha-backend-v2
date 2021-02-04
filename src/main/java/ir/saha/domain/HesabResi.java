@@ -25,7 +25,7 @@ public class HesabResi implements Serializable {
     @Column(name = "sal")
     private Integer sal;
 
-    @Column(name = "sal")
+    @Column(name = "tedadRoozayeTatilSal")
     private Long tedadRoozayeTatilSal;
 
     @Enumerated(EnumType.STRING)
