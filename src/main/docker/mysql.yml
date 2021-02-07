@@ -1,4 +1,4 @@
-  version: '2'
+version: '2'
 services:
   saha-mysql:
     image: mysql:8.0.19
