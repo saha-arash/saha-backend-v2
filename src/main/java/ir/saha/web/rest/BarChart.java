@@ -1,13 +1,6 @@
 package ir.saha.web.rest;
 
 import java.io.FileOutputStream;
-import java.util.List;
-
-import ir.saha.domain.HesabResi;
-import ir.saha.domain.NirooCode;
-import ir.saha.domain.Yegan;
-import ir.saha.repository.HesabResiRepository;
-import ir.saha.repository.NirooCodeRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -33,24 +26,10 @@ import org.openxmlformats.schemas.drawingml.x2006.chart.STBarDir;
 import org.openxmlformats.schemas.drawingml.x2006.chart.STOrientation;
 import org.openxmlformats.schemas.drawingml.x2006.chart.STLegendPos;
 import org.openxmlformats.schemas.drawingml.x2006.chart.STTickLblPos;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api")
 public class BarChart {
 
-    @Autowired
-    private NirooCodeRepository nirooCodeRepository;
-
-
-    @Autowired
-    private HesabResiRepository hesabResiRepository;
-    @GetMapping("/excel")
-    public  void bilanSalGhable(@RequestParam(name="sal") int sal) throws Exception {
+    public static void main(String[] args) throws Exception {
         Workbook wb = new XSSFWorkbook();
         Sheet sheet = wb.createSheet("Sheet1");
 
@@ -59,24 +38,19 @@ public class BarChart {
 
         row = sheet.createRow(0);
         row.createCell(0);
-        row.createCell(10).setCellValue("شرح");
-        row.createCell(9).setCellValue("مدت ماموریت پیشبینی شده");
-        row.createCell(8).setCellValue("مدت ماموریت انجام شده");
+        row.createCell(1).setCellValue("HEADER 1");
+        row.createCell(2).setCellValue("HEADER 2");
+        row.createCell(3).setCellValue("HEADER 3");
 
-        List<NirooCode> all = nirooCodeRepository.findAll();
-        for (int r = 0; r < all.size(); r++) {
-            NirooCode nirooCode = all.get(r);
+        for (int r = 1; r < 5; r++) {
             row = sheet.createRow(r);
-            cell = row.createCell(10);
-            cell.setCellValue(nirooCode.getName());
-            int totalKarbarSize=0;
-            for (Yegan yegan : nirooCode.getYegans()) {
-                totalKarbarSize=totalKarbarSize+yegan.getKarbars().size();
-            }
-            HesabResi allBySal = hesabResiRepository.findAllBySal(sal);
-            cell = row.createCell(9);
-            cell.setCellValue(totalKarbarSize*(365-allBySal.getTedadRoozayeTatilSal()));
-            cell = row.createCell(8);
+            cell = row.createCell(0);
+            cell.setCellValue("Serie " + r);
+            cell = row.createCell(1);
+            cell.setCellValue(new java.util.Random().nextDouble());
+            cell = row.createCell(2);
+            cell.setCellValue(new java.util.Random().nextDouble());
+            cell = row.createCell(3);
             cell.setCellValue(new java.util.Random().nextDouble());
         }
 
@@ -93,20 +67,20 @@ public class BarChart {
         ctBarChart.addNewBarDir().setVal(STBarDir.COL);
 
         for (int r = 2; r < 6; r++) {
-           CTBarSer ctBarSer = ctBarChart.addNewSer();
-           CTSerTx ctSerTx = ctBarSer.addNewTx();
-           CTStrRef ctStrRef = ctSerTx.addNewStrRef();
-           ctStrRef.setF("Sheet1!$A$" + r);
-           ctBarSer.addNewIdx().setVal(r-2);
-           CTAxDataSource cttAxDataSource = ctBarSer.addNewCat();
-           ctStrRef = cttAxDataSource.addNewStrRef();
-           ctStrRef.setF("Sheet1!$B$1:$D$1");
-           CTNumDataSource ctNumDataSource = ctBarSer.addNewVal();
-           CTNumRef ctNumRef = ctNumDataSource.addNewNumRef();
-           ctNumRef.setF("Sheet1!$B$" + r + ":$D$" + r);
+            CTBarSer ctBarSer = ctBarChart.addNewSer();
+            CTSerTx ctSerTx = ctBarSer.addNewTx();
+            CTStrRef ctStrRef = ctSerTx.addNewStrRef();
+            ctStrRef.setF("Sheet1!$A$" + r);
+            ctBarSer.addNewIdx().setVal(r-2);
+            CTAxDataSource cttAxDataSource = ctBarSer.addNewCat();
+            ctStrRef = cttAxDataSource.addNewStrRef();
+            ctStrRef.setF("Sheet1!$B$1:$D$1");
+            CTNumDataSource ctNumDataSource = ctBarSer.addNewVal();
+            CTNumRef ctNumRef = ctNumDataSource.addNewNumRef();
+            ctNumRef.setF("Sheet1!$B$" + r + ":$D$" + r);
 
-           //at least the border lines in Libreoffice Calc ;-)
-           ctBarSer.addNewSpPr().addNewLn().addNewSolidFill().addNewSrgbClr().setVal(new byte[] {0,0,0});
+            //at least the border lines in Libreoffice Calc ;-)
+            ctBarSer.addNewSpPr().addNewLn().addNewSolidFill().addNewSrgbClr().setVal(new byte[] {0,0,0});
 
         }
 
@@ -139,7 +113,7 @@ public class BarChart {
         ctLegend.addNewLegendPos().setVal(STLegendPos.B);
         ctLegend.addNewOverlay().setVal(false);
 
-System.out.println(ctChart);
+        System.out.println(ctChart);
 
         FileOutputStream fileOut = new FileOutputStream("/home/arsham/Downloads/BarChart.xlsx");
         wb.write(fileOut);

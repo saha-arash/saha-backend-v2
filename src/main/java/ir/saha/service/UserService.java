@@ -83,13 +83,16 @@ public class UserService {
     }
 
     public User registerUser(UserDTO userDTO, String password) {
-        userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
-            boolean removed = removeNonActivatedUser(existingUser);
-            if (!removed) {
-                throw new UsernameAlreadyUsedException();
-            }
-        });
         User newUser = new User();
+        Optional<User> oneByLogin = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
+        if (oneByLogin.isPresent()){
+            User user = oneByLogin.get();
+            newUser.setId(user.getId());
+            if (password!=null){
+                newUser.setPassword();
+            }
+
+        }
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getLogin().toLowerCase());
         // new user gets initially a generated password

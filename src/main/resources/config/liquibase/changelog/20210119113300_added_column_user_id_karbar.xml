@@ -31,7 +31,7 @@
                                  baseTableName="jhi_user"
                                  constraintName="fk_karbar_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="karbar"/>
+                                     referencedTableName="karbar"/>
     </changeSet>
 
 </databaseChangeLog>
