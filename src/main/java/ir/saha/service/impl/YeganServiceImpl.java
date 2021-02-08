@@ -1,6 +1,7 @@
 package ir.saha.service.impl;
 
 import ir.saha.domain.BargeMamooriat;
+import ir.saha.domain.Karbar;
 import ir.saha.domain.User;
 import ir.saha.service.UserService;
 import ir.saha.service.YeganService;
@@ -67,6 +68,10 @@ public class YeganServiceImpl implements YeganService {
         Yegan yegan = yeganMapper.toEntity(yeganDTO);
         yegan = yeganRepository.save(yegan);
         UserDTO userDTO=new UserDTO();
+        if (yeganDTO.getId()!=null){
+            Yegan result = yeganRepository.findById(yeganDTO.getId()).get();
+            userDTO.setId(result.getUser().getId());
+        }
         userDTO.setLogin(yeganDTO.getUsername());
         userDTO.setAuthorities(new HashSet<>(Arrays.asList("ROLE_YEGAN","ROLE_ZIR_YEGAN")));
         User user = userService.registerUserYegan(yegan, userDTO, yeganDTO.getPassword());
