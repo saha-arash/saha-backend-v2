@@ -267,6 +267,8 @@ public class KarbarDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", shoghlSazmani='" + getShoghlSazmani() + "'" +
+            ", username='" + getUsername() + "'" +
+            ", shoghlSazmani='" + getShoghlSazmani() + "'" +
             ", shoghlAmali='" + getShoghlAmali() + "'" +
             ", codePerseneli='" + getCodePerseneli() + "'" +
             ", bezaneshate='" + isBezaneshate() + "'" +
