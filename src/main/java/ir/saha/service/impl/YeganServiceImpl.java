@@ -3,6 +3,7 @@ package ir.saha.service.impl;
 import ir.saha.domain.BargeMamooriat;
 import ir.saha.domain.Karbar;
 import ir.saha.domain.User;
+import ir.saha.repository.UserRepository;
 import ir.saha.service.UserService;
 import ir.saha.service.YeganService;
 import ir.saha.domain.Yegan;
@@ -17,6 +18,7 @@ import ir.saha.service.mapper.YeganTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,9 @@ public class YeganServiceImpl implements YeganService {
      * @param yeganDTO the entity to save.
      * @return the persisted entity.
      */
+
+    @Autowired
+    private UserRepository userRepository;
     @Override
    // @Transactional
     public YeganDTO save(YeganDTO yeganDTO) {
@@ -70,7 +75,8 @@ public class YeganServiceImpl implements YeganService {
         UserDTO userDTO=new UserDTO();
         if (yeganDTO.getId()!=null){
             Yegan result = yeganRepository.findById(yeganDTO.getId()).get();
-            userDTO.setId(result.getUser().getId());
+            User byYegan = userRepository.findByYegan(yegan);
+            userDTO.setId(byYegan.getId());
         }
         userDTO.setLogin(yeganDTO.getUsername());
         userDTO.setAuthorities(new HashSet<>(Arrays.asList("ROLE_YEGAN","ROLE_ZIR_YEGAN")));
