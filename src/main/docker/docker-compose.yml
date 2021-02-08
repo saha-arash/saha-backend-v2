@@ -18,3 +18,5 @@ services:
     extends:
       file: mysql.yml
       service: saha-mysql
+volumes:
+  my-datavolume:      
