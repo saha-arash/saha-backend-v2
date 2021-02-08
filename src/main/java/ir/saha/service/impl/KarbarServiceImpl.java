@@ -68,6 +68,10 @@ public class KarbarServiceImpl implements KarbarService {
         Karbar karbar = karbarMapper.toEntity(karbarDTO);
         karbar = karbarRepository.save(karbar);
         UserDTO userDTO=new UserDTO();
+        if (karbarDTO.getId()!=null){
+            Karbar result = karbarRepository.findById(karbarDTO.getId()).get();
+            userDTO.setId(result.getUser().getId());
+        }
         userDTO.setLogin(karbarDTO.getUsername());
         Set<String> auth= new HashSet<String>(Arrays.asList("ROLE_USER"));
         userDTO.setAuthorities(auth);
