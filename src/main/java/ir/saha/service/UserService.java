@@ -96,9 +96,12 @@ public class UserService {
             newUser.setId(user.getId());
             if (password!=null){
                 newUser.setPassword(passwordEncoder.encode(password));
+                newUser.setLogin(userDTO.getLogin());
             }
             if (userDTO.getLogin()!=null){
                 newUser.setLogin(userDTO.getLogin());
+                String encryptedPassword = passwordEncoder.encode(password);
+                newUser.setPassword(encryptedPassword);
             }
         }else{
             String encryptedPassword = passwordEncoder.encode(password);
