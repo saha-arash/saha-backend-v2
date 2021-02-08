@@ -1,7 +1,5 @@
 package ir.saha.service.dto;
 
-import ir.saha.domain.Negahbani;
-
 import java.time.Instant;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -31,8 +29,8 @@ public class KarbarDTO implements Serializable {
 
     private Instant tarikhEstekhdam;
 
-    private String user;
-    private String pass;
+    private String username;
+    private String password;
 
     private Set<BargeMamooriatDTO> bargeMamoorits = new HashSet<>();
 
@@ -106,20 +104,20 @@ public class KarbarDTO implements Serializable {
         this.negahbanis = negahbanis;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPass() {
-        return pass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {
@@ -268,6 +266,8 @@ public class KarbarDTO implements Serializable {
         return "KarbarDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", shoghlSazmani='" + getShoghlSazmani() + "'" +
+            ", username='" + getUsername() + "'" +
             ", shoghlSazmani='" + getShoghlSazmani() + "'" +
             ", shoghlAmali='" + getShoghlAmali() + "'" +
             ", codePerseneli='" + getCodePerseneli() + "'" +

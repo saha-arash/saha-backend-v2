@@ -57,7 +57,7 @@ public class KarbarResource {
      */
     @PostMapping("/karbars")
     public ResponseEntity<KarbarDTO> createKarbar(@RequestBody KarbarDTO karbarDTO) throws URISyntaxException {
-        log.debug("REST request to save Karbar : {}", karbarDTO);
+        log.error("REST request to save Karbar : {}", karbarDTO);
         if (karbarDTO.getId() != null) {
             throw new BadRequestAlertException("A new karbar cannot already have an ID", ENTITY_NAME, "idexists");
         }

@@ -61,7 +61,7 @@ public class YeganServiceImpl implements YeganService {
      * @return the persisted entity.
      */
     @Override
-    @Transactional
+   // @Transactional
     public YeganDTO save(YeganDTO yeganDTO) {
         log.debug("Request to save Yegan : {}", yeganDTO);
         Yegan yegan = yeganMapper.toEntity(yeganDTO);
