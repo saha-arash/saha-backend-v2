@@ -66,7 +66,7 @@
     <include file="config/liquibase/changelog/20210110114200_added_entity_constraints_FileGozaresh.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210110114400_added_entity_constraints_Ostan.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210110114500_added_entity_constraints_Shahr.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210119113300_added_column_user_id.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210119113300_added_column_user_id_karbar.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210149113300_added_column_file_name_to_file_mamooriat.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210150113300_drop_email_constrain.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210205113300_added_column_roozetatilSal.xml" relativeToChangelogFile="false"/>
