@@ -84,19 +84,29 @@ public class UserService {
 
     public User registerUser(UserDTO userDTO, String password) {
         User newUser = new User();
-        Optional<User> oneByLogin = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
+        Optional<User> oneByLogin=null;
+        if (userDTO.getId()!=null){
+            oneByLogin = userRepository.findById(userDTO.getId());
+
+        }else{
+            oneByLogin = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
+        }
         if (oneByLogin.isPresent()){
             User user = oneByLogin.get();
             newUser.setId(user.getId());
             if (password!=null){
-                newUser.setPassword();
+                newUser.setPassword(passwordEncoder.encode(password));
             }
+            if (userDTO.getLogin()!=null){
+                newUser.setLogin(userDTO.getLogin());
+            }
+        }else{
+            String encryptedPassword = passwordEncoder.encode(password);
+            newUser.setPassword(encryptedPassword);
+            newUser.setLogin(userDTO.getLogin());
 
         }
-        String encryptedPassword = passwordEncoder.encode(password);
-        newUser.setLogin(userDTO.getLogin().toLowerCase());
         // new user gets initially a generated password
-        newUser.setPassword(encryptedPassword);
         newUser.setFirstName(userDTO.getFirstName());
         newUser.setLastName(userDTO.getLastName());
         if (userDTO.getEmail() != null) {
