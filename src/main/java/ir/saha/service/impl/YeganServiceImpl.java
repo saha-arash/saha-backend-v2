@@ -75,7 +75,7 @@ public class YeganServiceImpl implements YeganService {
         UserDTO userDTO=new UserDTO();
         if (yeganDTO.getId()!=null){
             Yegan result = yeganRepository.findById(yeganDTO.getId()).get();
-            User byYegan = userRepository.findByYegan(yegan);
+            User byYegan = userRepository.findByYegan(result);
             userDTO.setId(byYegan.getId());
         }
         userDTO.setLogin(yeganDTO.getUsername());
