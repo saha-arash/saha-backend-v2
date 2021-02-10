@@ -438,36 +438,39 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
         User allByLoginNot = userRepository.findOneWithAuthoritiesByLogin(user).get();
         Karbar karbar = allByLoginNot.getKarbar();
 
-        if (karbar==null){
+        if (karbar==null) {
             Yegan yegan = allByLoginNot.getYegan();
-            Set<BargeMamooriat> bargeMamoorits = yegan.getBargeMamoorits();
-            int size = bargeMamoorits.size();
-           return bargeMamoorits.stream()
-                .filter(b->{
-                    if (bargeMamooriat.getSaleMamooriat()!=null){
-                        return b.getSaleMamooriat().equals(bargeMamooriat.getSaleMamooriat());
-                    }
-                    return true;
-                })
-                .filter(b->{
-                    if (bargeMamooriat.getVaziatBargeMamooriat()!=null){
-                        return b.getVaziat().equals(bargeMamooriat.getVaziatBargeMamooriat());
-                    }
-                    return true;
-                })
-                .filter(b->{
-                    if (bargeMamooriat.getHesabResiShode()!=null && b.getHesabResi()!=null){
-                        return b.getHesabResi().getVaziateHesabResi().equals(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN);
-                    }
-                    return true;
-                })
-               .map(b->{
-                   BargeMamooriatDTO bargeMamooriatDTO = bargeMamooriatMapper.toDto(b);
-                   bargeMamooriatDTO.setNafarat(b.getNafars().stream().map(b1->b1.getId()).collect(Collectors.toList()));
-                   bargeMamooriatDTO.setBinandegan(b.getBinandes().stream().map(b1->b1.getId()).collect(Collectors.toList()));
-                   return bargeMamooriatDTO;
-               })
-               .collect(Collectors.toList());
+            if (yegan != null) {
+                Set<BargeMamooriat> bargeMamoorits = yegan.getBargeMamoorits();
+                int size = bargeMamoorits.size();
+                return bargeMamoorits.stream()
+                    .filter(b -> {
+                        if (bargeMamooriat.getSaleMamooriat() != null) {
+                            return b.getSaleMamooriat().equals(bargeMamooriat.getSaleMamooriat());
+                        }
+                        return true;
+                    })
+                    .filter(b -> {
+                        if (bargeMamooriat.getVaziatBargeMamooriat() != null) {
+                            return b.getVaziat().equals(bargeMamooriat.getVaziatBargeMamooriat());
+                        }
+                        return true;
+                    })
+                    .filter(b -> {
+                        if (bargeMamooriat.getHesabResiShode() != null && b.getHesabResi() != null) {
+                            return b.getHesabResi().getVaziateHesabResi().equals(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN);
+                        }
+                        return true;
+                    })
+                    .map(b -> {
+                        BargeMamooriatDTO bargeMamooriatDTO = bargeMamooriatMapper.toDto(b);
+                        bargeMamooriatDTO.setNafarat(b.getNafars().stream().map(b1 -> b1.getId()).collect(Collectors.toList()));
+                        bargeMamooriatDTO.setBinandegan(b.getBinandes().stream().map(b1 -> b1.getId()).collect(Collectors.toList()));
+                        return bargeMamooriatDTO;
+                    })
+                    .collect(Collectors.toList());
+            }
+            return new ArrayList<>();
         }
         Set<BargeMamooriat> bargeMamoorits = karbar.getBargeMamoorits();
         Set<BargeMamooriat>  sarparestemamooriats= karbar.getSarparestemamooriats();
