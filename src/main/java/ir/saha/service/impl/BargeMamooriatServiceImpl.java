@@ -26,10 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -161,6 +158,10 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
         TamamBargemamooriatHa tamamBargemamooriatHa=new TamamBargemamooriatHa();
         log.debug("Request to get all BargeMamooriats");
         String user= SecurityUtils.getCurrentUserLogin().get();
+        boolean role_admin = SecurityUtils.isCurrentUserInRole("ROLE_ADMIN");
+        if (role_admin){
+            yeganRepository.findAll();
+        }
         User allByLoginNot = userRepository.findOneWithAuthoritiesByLogin(user).get();
         Karbar karbar = allByLoginNot.getKarbar();
 
@@ -565,6 +566,7 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
 
         if (karbar==null){
             Yegan yegan = allByLoginNot.getYegan();
+            if (yegan!=null){
             Set<BargeMamooriat> bargeMamoorits = yegan.getBargeMamoorits();
             int size = bargeMamoorits.size();
             return bargeMamoorits.stream()
@@ -593,6 +595,8 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
                     return bargeMamooriatDTO;
                 })
                 .collect(Collectors.toList());
+        }
+            else return new ArrayList<>();
         }
         Set<BargeMamooriat> bargeMamoorits = karbar.getBargeMamoorits();
         Set<BargeMamooriat>  sarparestemamooriats= karbar.getSarparestemamooriats();
