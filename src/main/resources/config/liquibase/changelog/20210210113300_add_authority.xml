@@ -13,7 +13,7 @@
     -->
     <changeSet id="20210110113300-1" author="jhipster">
        <sql>insert into jhi_authority (name) value ('ROLE_YEGAN')</sql>
-       <sql>insert into jhi_authority (name) value ('ROLE_ZIR_YEGAN')/<sql>
+       <sql>insert into jhi_authority (name) value ('ROLE_ZIR_YEGAN')</sql>
     </changeSet>
 
 </databaseChangeLog>
