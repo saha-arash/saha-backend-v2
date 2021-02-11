@@ -32,9 +32,21 @@ public class BargeMamooriatDTO implements Serializable {
 
     private Long hesabResiId;
 
+
+    private HesabResiDTO hesabResiDTO;
+
     private YeganDTO yeganDTO;
 
     private KarbarDTO sarparatDTO;
+
+
+    public HesabResiDTO getHesabResiDTO() {
+        return hesabResiDTO;
+    }
+
+    public void setHesabResiDTO(HesabResiDTO hesabResiDTO) {
+        this.hesabResiDTO = hesabResiDTO;
+    }
 
     public YeganDTO getYeganDTO() {
         return yeganDTO;

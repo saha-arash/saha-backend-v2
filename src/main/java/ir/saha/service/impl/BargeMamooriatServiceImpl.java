@@ -12,6 +12,7 @@ import ir.saha.service.dto.BargeMamooriatDTO;
 import ir.saha.service.dto.FilterBargeMamooriat;
 import ir.saha.service.dto.TamamBargemamooriatHa;
 import ir.saha.service.mapper.BargeMamooriatMapper;
+import ir.saha.service.mapper.HesabResiMapper;
 import ir.saha.service.mapper.KarbarMapper;
 import ir.saha.service.mapper.YeganMapper;
 import org.slf4j.Logger;
@@ -44,9 +45,11 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
     private final KarbarMapper karbarMapper;
     private final YeganRepository yeganRepository;
     private final YeganMapper yeganMapper;
+    private final HesabResiMapper hesabResiMapper;
 
 
-    public BargeMamooriatServiceImpl(BargeMamooriatRepository bargeMamooriatRepository, BargeMamooriatMapper bargeMamooriatMapper, HesabResiRepository hesabResiRepository, UserRepository userRepository, KarbarRepository karbarRepository, KarbarMapper karbarMapper, YeganRepository yeganRepository, YeganMapper yeganMapper) {
+
+    public BargeMamooriatServiceImpl(BargeMamooriatRepository bargeMamooriatRepository, BargeMamooriatMapper bargeMamooriatMapper, HesabResiRepository hesabResiRepository, UserRepository userRepository, KarbarRepository karbarRepository, KarbarMapper karbarMapper, YeganRepository yeganRepository, YeganMapper yeganMapper, HesabResiMapper hesabResiMapper) {
         this.bargeMamooriatRepository = bargeMamooriatRepository;
         this.bargeMamooriatMapper = bargeMamooriatMapper;
         this.hesabResiRepository = hesabResiRepository;
@@ -55,6 +58,7 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
         this.karbarMapper = karbarMapper;
         this.yeganRepository = yeganRepository;
         this.yeganMapper = yeganMapper;
+        this.hesabResiMapper = hesabResiMapper;
     }
 
     /**
@@ -476,6 +480,7 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
             .map(b->{
                 BargeMamooriatDTO bargeMamooriatDTO = bargeMamooriatMapper.toDto(b);
                 bargeMamooriatDTO.setNafarat(b.getNafars().stream().map(b1->b1.getId()).collect(Collectors.toList()));
+                bargeMamooriatDTO.setHesabResiDTO(hesabResiMapper.toDto(b.getHesabResi()));
                 bargeMamooriatDTO.setBinandegan(b.getBinandes().stream().map(b1->b1.getId()).collect(Collectors.toList()));
                 bargeMamooriatDTO.setSarparatDTO(karbarMapper.toDto(b.getSarparast()));
                 bargeMamooriatDTO.setYeganDTO(yeganMapper.toDto(b.getYegan()));
