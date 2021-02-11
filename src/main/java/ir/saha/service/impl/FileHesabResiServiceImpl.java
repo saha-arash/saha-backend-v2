@@ -1,5 +1,6 @@
 package ir.saha.service.impl;
 
+import ir.saha.domain.enumeration.FileType;
 import ir.saha.service.FileHesabResiService;
 import ir.saha.domain.FileHesabResi;
 import ir.saha.repository.FileHesabResiRepository;
@@ -41,9 +42,11 @@ public class FileHesabResiServiceImpl implements FileHesabResiService {
      * @return the persisted entity.
      */
     @Override
+    @Transactional
     public FileHesabResiDTO save(FileHesabResiDTO fileHesabResiDTO) {
         log.debug("Request to save FileHesabResi : {}", fileHesabResiDTO);
         FileHesabResi fileHesabResi = fileHesabResiMapper.toEntity(fileHesabResiDTO);
+        fileHesabResi.setFileType(FileType.Nameh);
         fileHesabResi = fileHesabResiRepository.save(fileHesabResi);
         return fileHesabResiMapper.toDto(fileHesabResi);
     }

@@ -58,10 +58,10 @@ public class Karbar implements Serializable {
     @OneToMany(mappedBy = "sarparast")
     private Set<BargeMamooriat> sarparestemamooriats = new HashSet<>();
 
-    @OneToMany(mappedBy = "karbarErsalKonande")
+    @OneToMany(mappedBy = "karbarDaryaftKonand")
     private Set<Payam> sandoghVoroodis = new HashSet<>();
 
-    @OneToMany(mappedBy = "karbarDaryaftKonand")
+    @OneToMany(mappedBy = "karbarErsalKonande")
     private Set<Payam> snadoghKhoroojis = new HashSet<>();
 
     @ManyToMany

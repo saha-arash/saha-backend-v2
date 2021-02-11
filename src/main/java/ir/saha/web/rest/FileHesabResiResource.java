@@ -98,7 +98,7 @@ public class FileHesabResiResource {
 //        return ResponseEntity.ok().headers(headers).body(page.getContent());
 //    }
 
-    @GetMapping("/file-hesab-resis/")
+    @GetMapping("/file-hesab-resis")
     public ResponseEntity<List<FileHesabResiDTO>> getAllFileHesabResis(Pageable pageable,FileHesabResirequest fileHesabResirequest) {
         log.debug("REST request to get a page of FileHesabResis");
         Page<FileHesabResiDTO> page = fileHesabResiService.getFiles(pageable,fileHesabResirequest);

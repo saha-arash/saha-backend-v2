@@ -4,13 +4,10 @@ import ir.saha.domain.Karbar;
 import ir.saha.domain.User;
 import ir.saha.domain.Yegan;
 import ir.saha.domain.enumeration.VaziateHesabResi;
-import ir.saha.repository.KarbarRepository;
-import ir.saha.repository.UserRepository;
-import ir.saha.repository.YeganRepository;
+import ir.saha.repository.*;
 import ir.saha.security.SecurityUtils;
 import ir.saha.service.BargeMamooriatService;
 import ir.saha.domain.BargeMamooriat;
-import ir.saha.repository.BargeMamooriatRepository;
 import ir.saha.service.dto.BargeMamooriatDTO;
 import ir.saha.service.dto.FilterBargeMamooriat;
 import ir.saha.service.dto.TamamBargemamooriatHa;
@@ -41,7 +38,7 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
     private final BargeMamooriatRepository bargeMamooriatRepository;
 
     private final BargeMamooriatMapper bargeMamooriatMapper;
-
+    private final HesabResiRepository hesabResiRepository;
     private final UserRepository userRepository;
     private final KarbarRepository karbarRepository;
     private final KarbarMapper karbarMapper;
@@ -49,9 +46,10 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
     private final YeganMapper yeganMapper;
 
 
-    public BargeMamooriatServiceImpl(BargeMamooriatRepository bargeMamooriatRepository, BargeMamooriatMapper bargeMamooriatMapper, UserRepository userRepository, KarbarRepository karbarRepository, KarbarMapper karbarMapper, YeganRepository yeganRepository, YeganMapper yeganMapper) {
+    public BargeMamooriatServiceImpl(BargeMamooriatRepository bargeMamooriatRepository, BargeMamooriatMapper bargeMamooriatMapper, HesabResiRepository hesabResiRepository, UserRepository userRepository, KarbarRepository karbarRepository, KarbarMapper karbarMapper, YeganRepository yeganRepository, YeganMapper yeganMapper) {
         this.bargeMamooriatRepository = bargeMamooriatRepository;
         this.bargeMamooriatMapper = bargeMamooriatMapper;
+        this.hesabResiRepository = hesabResiRepository;
         this.userRepository = userRepository;
         this.karbarRepository = karbarRepository;
         this.karbarMapper = karbarMapper;
@@ -429,23 +427,26 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
     }
 
     @Override
-    public List<BargeMamooriatDTO> getCurrentUserMamooriat(FilterBargeMamooriat bargeMamooriat) {
+    public Set<BargeMamooriatDTO> getCurrentUserMamooriat(FilterBargeMamooriat bargeMamooriat) {
         log.debug("Request to get all BargeMamooriats");
         String user= SecurityUtils.getCurrentUserLogin().get();
         User allByLoginNot = userRepository.findOneWithAuthoritiesByLogin(user).get();
         Karbar karbar = allByLoginNot.getKarbar();
 
+        if(bargeMamooriat.getHesabresiId()!=null){
+            return new HashSet<>(getBargeMamooriat(bargeMamooriat, new HashSet<>(hesabResiRepository.findById(bargeMamooriat.getHesabresiId()).get().getBargeMamooriats())));
+        }
         if (SecurityUtils.isCurrentUserInRole("ROLE_ADMIN")){
-            return getBargeMamooriat(bargeMamooriat, new HashSet<>(bargeMamooriatRepository.findAll()));
+            return new HashSet<>(getBargeMamooriat(bargeMamooriat, new HashSet<>(bargeMamooriatRepository.findAll())));
         }
         if (karbar==null) {
             Yegan yegan = allByLoginNot.getYegan();
             if (yegan != null) {
                 Set<BargeMamooriat> bargeMamoorits = yegan.getBargeMamoorits();
                 int size = bargeMamoorits.size();
-                return getBargeMamooriat(bargeMamooriat, bargeMamoorits);
+                return new HashSet<>(getBargeMamooriat(bargeMamooriat, bargeMamoorits));
             }
-            return new ArrayList<>();
+            return new HashSet<>();
         }
         Set<BargeMamooriat> bargeMamoorits = karbar.getBargeMamoorits();
         Set<BargeMamooriat>  sarparestemamooriats= karbar.getSarparestemamooriats();
@@ -483,7 +484,9 @@ public class BargeMamooriatServiceImpl implements BargeMamooriatService {
             .collect(Collectors.toList());
         binandeBargeMamooriatDto.addAll(sarparasterBargeMamooriatDto);
         binandeBargeMamooriatDto.addAll(bargeMamooriatDTOS);
-        return binandeBargeMamooriatDto;
+         return binandeBargeMamooriatDto.stream()
+            .collect(Collectors.toCollection(() ->
+                new TreeSet<>(Comparator.comparing(BargeMamooriatDTO::getId))));
     }
 
     private List<BargeMamooriatDTO> getBargeMamooriat(FilterBargeMamooriat bargeMamooriat, Set<BargeMamooriat> bargeMamoorits) {

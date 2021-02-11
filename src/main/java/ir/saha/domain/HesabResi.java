@@ -42,7 +42,7 @@ public class HesabResi implements Serializable {
 
     @OneToOne
     @JoinColumn(unique = true)
-    private RafeIradat rafeIradat;
+        private RafeIradat rafeIradat;
 
     @OneToOne
     @JoinColumn(unique = true)

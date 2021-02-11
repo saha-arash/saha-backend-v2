@@ -32,19 +32,19 @@ public class Payam implements Serializable {
     private Set<FileName> madareks = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties("sandoghVoroodis")
+    @JsonIgnoreProperties("snadoghKhoroojis")
     private Karbar karbarErsalKonande;
 
     @ManyToOne
-    @JsonIgnoreProperties("snadoghKhoroojis")
+    @JsonIgnoreProperties("sandoghVoroodis")
     private Karbar karbarDaryaftKonand;
 
     @ManyToOne
-    @JsonIgnoreProperties("sandoghVoroodis")
+    @JsonIgnoreProperties("snadoghKhoroojis")
     private Yegan yeganErsalKonanade;
 
     @ManyToOne
-    @JsonIgnoreProperties("snadoghKhoroojis")
+    @JsonIgnoreProperties("sandoghVoroodis")
     private Yegan yeganDaryaftKonanade;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

@@ -31,10 +31,10 @@ public class Yegan implements Serializable {
     @OneToMany(mappedBy = "yegan")
     private Set<Karbar> karbars = new HashSet<>();
 
-    @OneToMany(mappedBy = "yeganErsalKonanade")
+    @OneToMany(mappedBy = "yeganDaryaftKonanade")
     private Set<Payam> sandoghVoroodis = new HashSet<>();
 
-    @OneToMany(mappedBy = "yeganDaryaftKonanade")
+    @OneToMany(mappedBy = "yeganErsalKonanade")
     private Set<Payam> snadoghKhoroojis = new HashSet<>();
 
     @OneToMany(mappedBy = "yegan")

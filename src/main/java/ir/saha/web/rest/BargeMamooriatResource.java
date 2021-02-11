@@ -35,10 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -113,10 +110,11 @@ public class BargeMamooriatResource {
      *
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bargeMamooriats in body.
      */
+    @Secured({"ROLE_YEGAN","ROLE_USER","ROLE_ADMIN"})
     @GetMapping("/barge-mamooriats/user")
-    public ResponseEntity<List<BargeMamooriatDTO>> getCurrentUserMamooriat(FilterBargeMamooriat bargeMamooriat) {
+    public ResponseEntity<Set<BargeMamooriatDTO>> getCurrentUserMamooriat(FilterBargeMamooriat bargeMamooriat) {
         log.debug("REST request to get a page of BargeMamooriats");
-        List<BargeMamooriatDTO> page = bargeMamooriatService.getCurrentUserMamooriat(bargeMamooriat);
+        Set<BargeMamooriatDTO> page = bargeMamooriatService.getCurrentUserMamooriat(bargeMamooriat);
         return ResponseEntity.ok().body(page);
     }
 

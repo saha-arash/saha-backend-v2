@@ -140,27 +140,22 @@ public class YeganResource {
                 if (!yeganFilter.isJahateHesabResi()) {
                     return true;
                 } else
-                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().compareTo(NoeBarnameHesabResi.HESABRESI_BARNAMEE) == 1);
+                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().equals(NoeBarnameHesabResi.HESABRESI_BARNAMEE));
             }).filter(y -> {
                 if (!yeganFilter.isJahatePeygiri()) {
                     return true;
                 } else
-                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().compareTo(NoeBarnameHesabResi.HESABRESI_PEYGIRI) == 1);
-            }).filter(y -> {
-                if (!yeganFilter.isJahateHesabResi()) {
-                    return true;
-                } else
-                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().compareTo(NoeBarnameHesabResi.HESABRESI_PEYGIRI) == 1);
+                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().equals(NoeBarnameHesabResi.HESABRESI_PEYGIRI));
             }).filter(y -> {
                 if (!yeganFilter.isHesabresiShode()) {
                     return true;
                 } else
-                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getVaziateHesabResi().compareTo(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN) == 1);
+                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getVaziateHesabResi().equals(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN));
             }).filter(y -> {
                 if (!yeganFilter.isHesabresiNashodeShode()) {
                     return true;
                 } else
-                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getVaziateHesabResi().compareTo(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN) == 0);
+                    return y.getBargeMamoorits().stream().anyMatch(b -> !b.getHesabResi().getVaziateHesabResi().equals(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN));
             }).map(yeganMapper::toDto).collect(Collectors.toList());
         PageImpl<YeganDTO> yegans = new PageImpl<>(result, pageable, 1000);
         HttpHeaders httpHeaders = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), yegans);
