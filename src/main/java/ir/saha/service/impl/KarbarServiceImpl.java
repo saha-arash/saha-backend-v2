@@ -201,21 +201,8 @@ public class KarbarServiceImpl implements KarbarService {
             Set<Payam> result = userResult.getKarbar().getSandoghVoroodis();
                 resultSiz = result.size();
             collect=result.stream().map(p->{
-                    PayamDTO payamDTO = payamMapper.toDto(p);
-                    if (payamDTO.getKarbarDaryaftKonandId()!=null) {
-                        payamDTO.setKarbarDaryaftKonandeKonande(karbarMapper.toDto(karbarRepository.findById(payamDTO.getKarbarDaryaftKonandId()).get()));
-                    }
-                if (payamDTO.getKarbarErsalKonandeId()!=null) {
-                    payamDTO.setKarbarDaryaftKonandeKonande(karbarMapper.toDto(karbarRepository.findById(payamDTO.getKarbarErsalKonandeId()).get()));
-                }
-                if (payamDTO.getYeganDaryaftKonanadeId()!=null){
-                    payamDTO.setYeganDaryaftKonande(yeganMapper.toDto(yeganRepository.findById(payamDTO.getYeganDaryaftKonanadeId()).get()));
-                }
-                if (payamDTO.getYeganErsalKonanadeId()!=null){
-                    payamDTO.setYeganErsalKonanade(yeganMapper.toDto(yeganRepository.findById(payamDTO.getYeganErsalKonanadeId()).get()));
-                }
-                    return payamDTO;
-                }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                return getPayamDTO(p);
+            }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
                     .limit(pageable.getPageSize()).collect(Collectors.toList());
             }
         }else return  new PageImpl<>(collect, pageable, 0);
@@ -248,13 +235,29 @@ public class KarbarServiceImpl implements KarbarService {
             if (userResult.getKarbar().getSnadoghKhoroojis() != null) {
                 Set<Payam> result = userResult.getKarbar().getSnadoghKhoroojis();
                 resultSize = result.size();
-                collect = result.stream().map(p -> {
-                    PayamDTO payamDTO = payamMapper.toDto(p);
-                    return payamDTO;
+                collect = result.stream().map(p->{
+                    return getPayamDTO(p);
                 }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
                     .limit(pageable.getPageSize()).collect(Collectors.toList());
             }
         }else return  new PageImpl<>(collect, pageable, 0);
         return new PageImpl<>(collect, pageable, resultSize);
+    }
+
+    private PayamDTO getPayamDTO(Payam p) {
+        PayamDTO payamDTO = payamMapper.toDto(p);
+        if (payamDTO.getKarbarDaryaftKonandId() != null) {
+            payamDTO.setKarbarDaryaftKonandeKonande(karbarMapper.toDto(karbarRepository.findById(payamDTO.getKarbarDaryaftKonandId()).get()));
+        }
+        if (payamDTO.getKarbarErsalKonandeId() != null) {
+            payamDTO.setKarbarDaryaftKonandeKonande(karbarMapper.toDto(karbarRepository.findById(payamDTO.getKarbarErsalKonandeId()).get()));
+        }
+        if (payamDTO.getYeganDaryaftKonanadeId() != null) {
+            payamDTO.setYeganDaryaftKonande(yeganMapper.toDto(yeganRepository.findById(payamDTO.getYeganDaryaftKonanadeId()).get()));
+        }
+        if (payamDTO.getYeganErsalKonanadeId() != null) {
+            payamDTO.setYeganErsalKonanade(yeganMapper.toDto(yeganRepository.findById(payamDTO.getYeganErsalKonanadeId()).get()));
+        }
+        return payamDTO;
     }
 }
