@@ -152,10 +152,9 @@ public class HesabResiServiceImpl implements HesabResiService {
         return hesabResiRepository.findAll(pageable)
             .map(hesabResiMapper::toDto)
             .map(h->{
-                if (h.getId()==null){
-                    return h;
+                if (h.getBarnameHesabResiId()!=null){
+                    h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getId()).get()));
                 }
-                h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getId()).get()));
                 return h;
             });
     }
@@ -171,7 +170,13 @@ public class HesabResiServiceImpl implements HesabResiService {
     public Optional<HesabResiDTO> findOne(Long id) {
         log.debug("Request to get HesabResi : {}", id);
         return hesabResiRepository.findById(id)
-            .map(hesabResiMapper::toDto);
+            .map(hesabResiMapper::toDto)
+            .map(h->{
+                if (h.getBarnameHesabResiId()!=null){
+                    h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getId()).get()));
+                }
+                return h;
+            });
     }
 
     /**
