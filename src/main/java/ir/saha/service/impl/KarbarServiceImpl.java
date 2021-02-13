@@ -186,11 +186,11 @@ public class KarbarServiceImpl implements KarbarService {
                     Set<Payam> result = userResult.getYegan().getSandoghVoroodis();
                     resultSiz = result.size();
                     collect = result.stream().map(p -> {
-                        PayamDTO payamDTO = payamMapper.toDto(p);
-                        return payamDTO;
+                        return getPayamDTO(p);
                     }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
                         .limit(pageable.getPageSize()).collect(Collectors.toList());
                 }
+                return new PageImpl<>(collect, pageable, resultSiz);
             }else return  new PageImpl<>(collect, pageable, 0);
         }
 
@@ -221,8 +221,7 @@ public class KarbarServiceImpl implements KarbarService {
             if (userResult.getYegan().getSnadoghKhoroojis()!=null){
                 Set<Payam> result = userResult.getYegan().getSnadoghKhoroojis();
                 collect=result.stream().map(p -> {
-                    PayamDTO payamDTO = payamMapper.toDto(p);
-                    return payamDTO;
+                    return getPayamDTO(p);
                 }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
                     .limit(pageable.getPageSize()).collect(Collectors.toList());
             }
