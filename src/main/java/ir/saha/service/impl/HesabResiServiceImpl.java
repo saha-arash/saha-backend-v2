@@ -135,6 +135,22 @@ public class HesabResiServiceImpl implements HesabResiService {
         return hesabResiMapper.toDto(hesabResi);
     }
 
+    @Override
+    public HesabResiDTO update(HesabResiDTO hesabResiDTO) {
+        log.debug("Request to save HesabResi : {}", hesabResiDTO);
+        HesabResi hesabResi = hesabResiMapper.toEntity(hesabResiDTO);
+        if (hesabResiDTO.getBarnameHesabResiDTO().getId()!=null) {
+            BarnameHesabResi barnameHesabResiResult = barnameHesabResiRepository.findById(hesabResiDTO.getBarnameHesabResiDTO().getId()).get();
+            barnameHesabResiResult.setNoeBarnameHesabResi(hesabResiDTO.getBarnameHesabResiDTO().getNoeBarnameHesabResi());
+            barnameHesabResiResult.setHesabResi(hesabResi);
+            barnameHesabResiRepository.save(barnameHesabResiResult);
+            barnameHesabResiResult.setHesabResi(hesabResi);
+            hesabResiRepository.save(hesabResi);
+        }
+        hesabResi = hesabResiRepository.save(hesabResi);
+        return hesabResiMapper.toDto(hesabResi);
+    }
+
     /**
      * Get all the hesabResis.
      *

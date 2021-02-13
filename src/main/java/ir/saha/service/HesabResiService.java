@@ -20,6 +20,8 @@ public interface HesabResiService {
      */
     HesabResiDTO save(HesabResiDTO hesabResiDTO);
 
+    HesabResiDTO update(HesabResiDTO hesabResiDTO);
+
     /**
      * Get all the hesabResis.
      *
