@@ -153,7 +153,7 @@ public class HesabResiServiceImpl implements HesabResiService {
             .map(hesabResiMapper::toDto)
             .map(h->{
                 if (h.getBarnameHesabResiId()!=null){
-                    h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getId()).get()));
+                    h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getBarnameHesabResiId()).get()));
                 }
                 return h;
             });
@@ -173,7 +173,7 @@ public class HesabResiServiceImpl implements HesabResiService {
             .map(hesabResiMapper::toDto)
             .map(h->{
                 if (h.getBarnameHesabResiId()!=null){
-                    h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getId()).get()));
+                    h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getBarnameHesabResiId()).get()));
                 }
                 return h;
             });
