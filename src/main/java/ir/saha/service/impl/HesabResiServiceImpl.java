@@ -152,6 +152,9 @@ public class HesabResiServiceImpl implements HesabResiService {
         return hesabResiRepository.findAll(pageable)
             .map(hesabResiMapper::toDto)
             .map(h->{
+                if (h.getId()==null){
+                    return h;
+                }
                 h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getId()).get()));
                 return h;
             });
