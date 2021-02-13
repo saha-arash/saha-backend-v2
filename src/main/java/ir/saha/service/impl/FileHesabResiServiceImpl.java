@@ -46,7 +46,6 @@ public class FileHesabResiServiceImpl implements FileHesabResiService {
     public FileHesabResiDTO save(FileHesabResiDTO fileHesabResiDTO) {
         log.debug("Request to save FileHesabResi : {}", fileHesabResiDTO);
         FileHesabResi fileHesabResi = fileHesabResiMapper.toEntity(fileHesabResiDTO);
-        fileHesabResi.setFileType(FileType.Nameh);
         fileHesabResi = fileHesabResiRepository.save(fileHesabResi);
         return fileHesabResiMapper.toDto(fileHesabResi);
     }
