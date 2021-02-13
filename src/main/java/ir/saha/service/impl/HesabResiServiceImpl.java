@@ -6,6 +6,7 @@ import ir.saha.domain.enumeration.VaziateHesabResi;
 import ir.saha.repository.*;
 import ir.saha.service.HesabResiService;
 import ir.saha.service.dto.HesabResiDTO;
+import ir.saha.service.mapper.BarnameHesabResiMapper;
 import ir.saha.service.mapper.HesabResiMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +80,10 @@ public class HesabResiServiceImpl implements HesabResiService {
         log.debug("Request to save HesabResi : {}", hesabResiDTO);
         HesabResi hesabResi = hesabResiMapper.toEntity(hesabResiDTO);
         BarnameHesabResi barnameHesabResi=new BarnameHesabResi();
-        barnameHesabResi.setNoeBarnameHesabResi(NoeBarnameHesabResi.HESABRESI_BARNAMEE);
+        if (hesabResiDTO.getBarnameHesabResiDTO()!=null)
+        barnameHesabResi.setNoeBarnameHesabResi(hesabResiDTO.getBarnameHesabResiDTO().getNoeBarnameHesabResi());
+        else
+            barnameHesabResi.setNoeBarnameHesabResi(NoeBarnameHesabResi.HESABRESI_BARNAMEE);
         GardeshKar gardeshKar=new GardeshKar();
         KholaseGozaresh kholaseGozaresh=new KholaseGozaresh();
         Nameh nameh=new Nameh();
@@ -137,12 +141,20 @@ public class HesabResiServiceImpl implements HesabResiService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
+
+
+    @Autowired
+    private BarnameHesabResiMapper barnameHesabResiMapper;
     @Override
     @Transactional(readOnly = true)
     public Page<HesabResiDTO> findAll(Pageable pageable) {
         log.debug("Request to get all HesabResis");
         return hesabResiRepository.findAll(pageable)
-            .map(hesabResiMapper::toDto);
+            .map(hesabResiMapper::toDto)
+            .map(h->{
+                h.setBarnameHesabResiDTO(barnameHesabResiMapper.toDto(barnameHesabResiRepository.findById(h.getId()).get()));
+                return h;
+            });
     }
 
     /**

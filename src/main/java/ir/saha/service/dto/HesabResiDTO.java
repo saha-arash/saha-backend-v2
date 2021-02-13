@@ -49,6 +49,16 @@ public class HesabResiDTO implements Serializable {
 
     private Long barnameHesabResiId;
 
+    private BarnameHesabResiDTO barnameHesabResiDTO;
+
+
+    public BarnameHesabResiDTO getBarnameHesabResiDTO() {
+        return barnameHesabResiDTO;
+    }
+
+    public void setBarnameHesabResiDTO(BarnameHesabResiDTO barnameHesabResiDTO) {
+        this.barnameHesabResiDTO = barnameHesabResiDTO;
+    }
 
     public Long getTedadRoozayeTatilSal() {
         return tedadRoozayeTatilSal;

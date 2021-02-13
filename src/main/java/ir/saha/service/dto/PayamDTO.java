@@ -19,11 +19,49 @@ public class PayamDTO implements Serializable {
 
     private Long karbarErsalKonandeId;
 
+    private KarbarDTO karbarErsalKonande;
+    private KarbarDTO karbarDaryaftKonandeKonande;
+
     private Long karbarDaryaftKonandId;
 
     private Long yeganErsalKonanadeId;
+    private YeganDTO yeganErsalKonanade;
+    private YeganDTO yeganDaryaftKonande;
 
     private Long yeganDaryaftKonanadeId;
+
+
+    public KarbarDTO getKarbarErsalKonande() {
+        return karbarErsalKonande;
+    }
+
+    public void setKarbarErsalKonande(KarbarDTO karbarErsalKonande) {
+        this.karbarErsalKonande = karbarErsalKonande;
+    }
+
+    public KarbarDTO getKarbarDaryaftKonandeKonande() {
+        return karbarDaryaftKonandeKonande;
+    }
+
+    public void setKarbarDaryaftKonandeKonande(KarbarDTO karbarDaryaftKonandeKonande) {
+        this.karbarDaryaftKonandeKonande = karbarDaryaftKonandeKonande;
+    }
+
+    public YeganDTO getYeganErsalKonanade() {
+        return yeganErsalKonanade;
+    }
+
+    public void setYeganErsalKonanade(YeganDTO yeganErsalKonanade) {
+        this.yeganErsalKonanade = yeganErsalKonanade;
+    }
+
+    public YeganDTO getYeganDaryaftKonande() {
+        return yeganDaryaftKonande;
+    }
+
+    public void setYeganDaryaftKonande(YeganDTO yeganDaryaftKonande) {
+        this.yeganDaryaftKonande = yeganDaryaftKonande;
+    }
 
     public Long getId() {
         return id;

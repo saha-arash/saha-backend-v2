@@ -3,6 +3,7 @@ package ir.saha.service.impl;
 import ir.saha.domain.Payam;
 import ir.saha.domain.User;
 import ir.saha.repository.UserRepository;
+import ir.saha.repository.YeganRepository;
 import ir.saha.security.SecurityUtils;
 import ir.saha.service.KarbarService;
 import ir.saha.domain.Karbar;
@@ -45,8 +46,9 @@ public class KarbarServiceImpl implements KarbarService {
     private  final DarajeMapper darajeMapper;
     private  final SematMapper sematMapper;
     private  final YeganMapper yeganMapper;
+    private  final YeganRepository yeganRepository;
 
-    public KarbarServiceImpl(KarbarRepository karbarRepository, KarbarMapper karbarMapper, UserService userService, UserRepository userRepository, DarajeMapper darajeMapper, SematMapper sematMapper, YeganMapper yeganMapper) {
+    public KarbarServiceImpl(KarbarRepository karbarRepository, KarbarMapper karbarMapper, UserService userService, UserRepository userRepository, DarajeMapper darajeMapper, SematMapper sematMapper, YeganMapper yeganMapper, YeganRepository yeganRepository) {
         this.karbarRepository = karbarRepository;
         this.karbarMapper = karbarMapper;
         this.userService = userService;
@@ -54,6 +56,7 @@ public class KarbarServiceImpl implements KarbarService {
         this.darajeMapper = darajeMapper;
         this.sematMapper = sematMapper;
         this.yeganMapper = yeganMapper;
+        this.yeganRepository = yeganRepository;
     }
 
     /**
@@ -93,7 +96,11 @@ public class KarbarServiceImpl implements KarbarService {
     public Page<KarbarDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Karbars");
         return karbarRepository.findAll(pageable)
-            .map(karbarMapper::toDto);
+            .map(k->{
+                KarbarDTO karbarDTO = karbarMapper.toDto(k);
+                karbarDTO.setUsername(k.getUser().getLogin());
+                return karbarDTO;
+            });
     }
 
     /**
@@ -195,6 +202,18 @@ public class KarbarServiceImpl implements KarbarService {
                 resultSiz = result.size();
             collect=result.stream().map(p->{
                     PayamDTO payamDTO = payamMapper.toDto(p);
+                    if (payamDTO.getKarbarDaryaftKonandId()!=null) {
+                        payamDTO.setKarbarDaryaftKonandeKonande(karbarMapper.toDto(karbarRepository.findById(payamDTO.getKarbarDaryaftKonandId()).get()));
+                    }
+                if (payamDTO.getKarbarErsalKonandeId()!=null) {
+                    payamDTO.setKarbarDaryaftKonandeKonande(karbarMapper.toDto(karbarRepository.findById(payamDTO.getKarbarErsalKonandeId()).get()));
+                }
+                if (payamDTO.getYeganDaryaftKonanadeId()!=null){
+                    payamDTO.setYeganDaryaftKonande(yeganMapper.toDto(yeganRepository.findById(payamDTO.getYeganDaryaftKonanadeId()).get()));
+                }
+                if (payamDTO.getYeganErsalKonanadeId()!=null){
+                    payamDTO.setYeganErsalKonanade(yeganMapper.toDto(yeganRepository.findById(payamDTO.getYeganErsalKonanadeId()).get()));
+                }
                     return payamDTO;
                 }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
                     .limit(pageable.getPageSize()).collect(Collectors.toList());
