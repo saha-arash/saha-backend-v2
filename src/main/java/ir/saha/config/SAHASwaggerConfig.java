@@ -18,11 +18,11 @@ import java.util.Collections;
 @Profile("!pro")
 @Configuration
 @EnableSwagger2
-public class SnappBoxSwaggerConfig {
+public class SAHASwaggerConfig {
 
 @Bean
 public Docket api() {
-return new Docket(DocumentationType.SWAGGER_2).groupName("Arsham kolah keyri")
+return new Docket(DocumentationType.SWAGGER_2).groupName("SAMANE HESABRESI API")
 .globalOperationParameters(
 Collections.singletonList(new ParameterBuilder()
 .name("Authorization")
