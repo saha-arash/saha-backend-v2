@@ -16,19 +16,19 @@
             <column name="file_name;" type="varchar(255)"></column>
         </addColumn>
         <addColumn tableName="bazbiniha">
-            <column name="file_name;" type="varchar(255)"></column>
+            <column name="file_name" type="varchar(255)"></column>
         </addColumn>
         <addColumn tableName="form_mored_niaz">
-            <column name="file_name;" type="varchar(255)"></column>
+            <column name="file_name" type="varchar(255)"></column>
         </addColumn>
         <addColumn tableName="file_gozaresh">
-            <column name="file_name;" type="varchar(255)"></column>
+            <column name="file_name" type="varchar(255)"></column>
         </addColumn>
         <addColumn tableName="file_name">
-            <column name="file_name;" type="varchar(255)"></column>
+            <column name="file_name" type="varchar(255)"></column>
         </addColumn>
         <addColumn tableName="file_hesab_resi">
-            <column name="file_name;" type="varchar(255)"></column>
+            <column name="file_name" type="varchar(255)"></column>
         </addColumn>
     </changeSet>
 </databaseChangeLog>
