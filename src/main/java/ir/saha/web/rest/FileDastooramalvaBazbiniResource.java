@@ -5,8 +5,6 @@ import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import ir.saha.domain.FileBazbiniha;
 import ir.saha.repository.FileBazbinihaRepository;
-import ir.saha.service.FileGozareshService;
-import ir.saha.service.dto.FileGozareshDTO;
 import ir.saha.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +27,9 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-public class FileBazbiniResource {
+public class FileDastooramalvaBazbiniResource {
 
-    private final Logger log = LoggerFactory.getLogger(FileBazbiniResource.class);
+    private final Logger log = LoggerFactory.getLogger(FileDastooramalvaBazbiniResource.class);
 
     private static final String ENTITY_NAME = "fileGozaresh";
 
