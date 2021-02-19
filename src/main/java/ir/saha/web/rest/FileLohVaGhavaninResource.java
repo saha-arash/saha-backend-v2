@@ -5,8 +5,6 @@ import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import ir.saha.domain.FileDastoorAmalha;
 import ir.saha.repository.FileDastoorAmalRepository;
-import ir.saha.service.FileGozareshService;
-import ir.saha.service.dto.FileGozareshDTO;
 import ir.saha.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +27,9 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-public class FileDastoorAmalResource {
+public class FileLohVaGhavaninResource {
 
-    private final Logger log = LoggerFactory.getLogger(FileDastoorAmalResource.class);
+    private final Logger log = LoggerFactory.getLogger(FileLohVaGhavaninResource.class);
 
     private static final String ENTITY_NAME = "fileGozaresh";
 
@@ -43,26 +41,26 @@ public class FileDastoorAmalResource {
 
 
     /**
-     * {@code POST  /file-dastoor-amal} : Create a new fileGozaresh.
+     * {@code POST  /loh-ghavanin} : Create a new fileGozaresh.
      *
      * @param FileDastoorAmalha the FileDastoorAmalha to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new fileGozareshDTO, or with status {@code 400 (Bad Request)} if the fileGozaresh has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/file-dastoor-amal")
+    @PostMapping("/loh-ghavanin")
     public ResponseEntity<FileDastoorAmalha> createFileGozaresh(@RequestBody FileDastoorAmalha FileDastoorAmalha) throws URISyntaxException {
         log.debug("REST request to save FileGozaresh : {}", FileDastoorAmalha);
         if (FileDastoorAmalha.getId() != null) {
             throw new BadRequestAlertException("A new fileGozaresh cannot already have an ID", ENTITY_NAME, "idexists");
         }
         FileDastoorAmalha result = fileDastoorAmalRepository.save(FileDastoorAmalha);
-        return ResponseEntity.created(new URI("/api/file-dastoor-amal/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/loh-ghavanin/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
     /**
-     * {@code PUT  /file-dastoor-amal} : Updates an existing fileGozaresh.
+     * {@code PUT  /loh-ghavanin} : Updates an existing fileGozaresh.
      *
      * @param FileDastoorAmalha the FileDastoorAmalha to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated FileDastoorAmalha,
@@ -70,7 +68,7 @@ public class FileDastoorAmalResource {
      * or with status {@code 500 (Internal Server Error)} if the FileDastoorAmalha couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/file-dastoor-amal")
+    @PutMapping("/loh-ghavanin")
     public ResponseEntity<FileDastoorAmalha> updateFileGozaresh(@RequestBody FileDastoorAmalha FileDastoorAmalha) throws URISyntaxException {
         log.debug("REST request to update FileGozaresh : {}", FileDastoorAmalha);
         if (FileDastoorAmalha.getId() == null) {
@@ -83,12 +81,12 @@ public class FileDastoorAmalResource {
     }
 
     /**
-     * {@code GET  /file-dastoor-amal} : get all the fileGozareshes.
+     * {@code GET  /loh-ghavanin} : get all the fileGozareshes.
      *
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of fileGozareshes in body.
      */
-    @GetMapping("/file-dastoor-amal")
+    @GetMapping("/loh-ghavanin")
     public ResponseEntity<List<FileDastoorAmalha>> getAllFileGozareshes(Pageable pageable) {
         log.debug("REST request to get a page of FileGozareshes");
         Page<FileDastoorAmalha> page = fileDastoorAmalRepository.findAll(pageable);
@@ -97,12 +95,12 @@ public class FileDastoorAmalResource {
     }
 
     /**
-     * {@code GET  /file-dastoor-amal/:id} : get the "id" fileGozaresh.
+     * {@code GET  /loh-ghavanin/:id} : get the "id" fileGozaresh.
      *
      * @param id the id of the FileDastoorAmalha to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the FileDastoorAmalha, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/file-dastoor-amal/{id}")
+    @GetMapping("/loh-ghavanin/{id}")
     public ResponseEntity<FileDastoorAmalha> getFileGozaresh(@PathVariable Long id) {
         log.debug("REST request to get FileGozaresh : {}", id);
         Optional<FileDastoorAmalha> FileDastoorAmalha = fileDastoorAmalRepository.findById(id);
@@ -110,12 +108,12 @@ public class FileDastoorAmalResource {
     }
 
     /**
-     * {@code DELETE  /file-dastoor-amal/:id} : delete the "id" fileGozaresh.
+     * {@code DELETE  /loh-ghavanin/:id} : delete the "id" fileGozaresh.
      *
      * @param id the id of the FileDastoorAmalha to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/file-dastoor-amal/{id}")
+    @DeleteMapping("/loh-ghavanin/{id}")
     public ResponseEntity<Void> deleteFileGozaresh(@PathVariable Long id) {
         log.debug("REST request to delete FileGozaresh : {}", id);
         fileDastoorAmalRepository.deleteById(id);
