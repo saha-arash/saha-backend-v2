@@ -18,6 +18,16 @@ public class FileGozareshDTO implements Serializable {
 
     private Long hesabResiId;
 
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public Long getId() {
         return id;
     }

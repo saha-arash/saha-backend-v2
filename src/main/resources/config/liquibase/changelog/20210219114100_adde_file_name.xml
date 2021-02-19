@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+        <property name="autoIncrement" value="true"/>
+
+    <!--
+        Added the entity FileHesabResi.
+    -->
+    <changeSet id="1" author="jhipster">
+        <addColumn tableName="dastoor_amalha">
+            <column name="file_name;" type="varchar(255)"></column>
+        </addColumn>
+        <addColumn tableName="bazbiniha">
+            <column name="file_name;" type="varchar(255)"></column>
+        </addColumn>
+        <addColumn tableName="form_mored_niaz">
+            <column name="file_name;" type="varchar(255)"></column>
+        </addColumn>
+        <addColumn tableName="file_gozaresh">
+            <column name="file_name;" type="varchar(255)"></column>
+        </addColumn>
+        <addColumn tableName="file_name">
+            <column name="file_name;" type="varchar(255)"></column>
+        </addColumn>
+        <addColumn tableName="file_hesab_resi">
+            <column name="file_name;" type="varchar(255)"></column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

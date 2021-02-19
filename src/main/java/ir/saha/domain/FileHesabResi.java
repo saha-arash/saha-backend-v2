@@ -22,6 +22,7 @@ public class FileHesabResi implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String fileName;
     @Lob
     @Column(name = "file")
     private byte[] file;
@@ -105,6 +106,14 @@ public class FileHesabResi implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("failhas")
     private GardeshKar gardeshKar;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

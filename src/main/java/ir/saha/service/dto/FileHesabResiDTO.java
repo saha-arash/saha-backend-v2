@@ -58,6 +58,15 @@ public class FileHesabResiDTO implements Serializable {
 
     private Long gardeshKarId;
 
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
     public Long getId() {
         return id;
     }

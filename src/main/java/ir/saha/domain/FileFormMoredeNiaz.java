@@ -22,6 +22,16 @@ public class FileFormMoredeNiaz implements Serializable {
     @Column(name = "file")
     private byte[] file;
 
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public Long getId() {
         return id;
     }
