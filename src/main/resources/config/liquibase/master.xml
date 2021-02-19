@@ -72,5 +72,6 @@
     <include file="config/liquibase/changelog/20210205113300_added_column_roozetatilSal.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210210113300_add_authority.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210210113300_add_karbar_to_admin.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210219114100_added_entity_newFiles.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
