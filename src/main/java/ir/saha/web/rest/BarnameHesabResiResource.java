@@ -1,6 +1,7 @@
 package ir.saha.web.rest;
 
 import ir.saha.service.BarnameHesabResiService;
+import ir.saha.service.dto.FilterbarnameHesabResiSalane;
 import ir.saha.web.rest.errors.BadRequestAlertException;
 import ir.saha.service.dto.BarnameHesabResiDTO;
 
@@ -100,6 +101,13 @@ public class BarnameHesabResiResource {
         }
         log.debug("REST request to get a page of BarnameHesabResis");
         Page<BarnameHesabResiDTO> page = barnameHesabResiService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/barname-hesab-resis/user")
+    public ResponseEntity<List<BarnameHesabResiDTO>> getAllBarnameHesabResis(Pageable pageable,  FilterbarnameHesabResiSalane filter) {
+        Page<BarnameHesabResiDTO> page = barnameHesabResiService.getCurrentUser(pageable,filter);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

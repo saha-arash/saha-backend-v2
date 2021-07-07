@@ -42,4 +42,6 @@ public interface OstanService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<OstanDTO> search(String name, Pageable pageable);
 }

@@ -29,10 +29,18 @@ public class KarbarDTO implements Serializable {
 
     private Instant tarikhEstekhdam;
 
+    private String username;
+    private String password;
 
     private Set<BargeMamooriatDTO> bargeMamoorits = new HashSet<>();
 
     private Set<BargeMamooriatDTO> binanadeBargeMamoorits = new HashSet<>();
+
+    private Set<MorkhasiDTO> morkhasiDTOS=new HashSet<>();
+
+    private Set<DoreDTO> doreDTOS=new HashSet<>();
+
+    private Set<NegahbaniDTO> negahbanis=new HashSet<>();
 
     private Long yeganId;
 
@@ -41,6 +49,76 @@ public class KarbarDTO implements Serializable {
     private Long darajeId;
 
     private Long sematId;
+
+    private YeganDTO yeganDTO;
+
+    private DarajeDTO darajeDTO;
+
+    private SematDTO sematDTO;
+
+    public YeganDTO getYeganDTO() {
+        return yeganDTO;
+    }
+
+    public void setYeganDTO(YeganDTO yeganDTO) {
+        this.yeganDTO = yeganDTO;
+    }
+
+    public DarajeDTO getDarajeDTO() {
+        return darajeDTO;
+    }
+
+    public void setDarajeDTO(DarajeDTO darajeDTO) {
+        this.darajeDTO = darajeDTO;
+    }
+
+    public SematDTO getSematDTO() {
+        return sematDTO;
+    }
+
+    public void setSematDTO(SematDTO sematDTO) {
+        this.sematDTO = sematDTO;
+    }
+
+    public Set<MorkhasiDTO> getMorkhasiDTOS() {
+        return morkhasiDTOS;
+    }
+
+    public void setMorkhasiDTOS(Set<MorkhasiDTO> morkhasiDTOS) {
+        this.morkhasiDTOS = morkhasiDTOS;
+    }
+
+    public Set<DoreDTO> getDoreDTOS() {
+        return doreDTOS;
+    }
+
+    public void setDoreDTOS(Set<DoreDTO> doreDTOS) {
+        this.doreDTOS = doreDTOS;
+    }
+
+    public Set<NegahbaniDTO> getNegahbanis() {
+        return negahbanis;
+    }
+
+    public void setNegahbanis(Set<NegahbaniDTO> negahbanis) {
+        this.negahbanis = negahbanis;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -188,6 +266,8 @@ public class KarbarDTO implements Serializable {
         return "KarbarDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", shoghlSazmani='" + getShoghlSazmani() + "'" +
+            ", username='" + getUsername() + "'" +
             ", shoghlSazmani='" + getShoghlSazmani() + "'" +
             ", shoghlAmali='" + getShoghlAmali() + "'" +
             ", codePerseneli='" + getCodePerseneli() + "'" +

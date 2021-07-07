@@ -2,7 +2,9 @@ package ir.saha.service;
 
 import ir.saha.config.Constants;
 import ir.saha.domain.Authority;
+import ir.saha.domain.Karbar;
 import ir.saha.domain.User;
+import ir.saha.domain.Yegan;
 import ir.saha.repository.AuthorityRepository;
 import ir.saha.repository.UserRepository;
 import ir.saha.security.AuthoritiesConstants;
@@ -81,23 +83,33 @@ public class UserService {
     }
 
     public User registerUser(UserDTO userDTO, String password) {
-        userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
-            boolean removed = removeNonActivatedUser(existingUser);
-            if (!removed) {
-                throw new UsernameAlreadyUsedException();
-            }
-        });
-        userRepository.findOneByEmailIgnoreCase(userDTO.getEmail()).ifPresent(existingUser -> {
-            boolean removed = removeNonActivatedUser(existingUser);
-            if (!removed) {
-                throw new EmailAlreadyUsedException();
-            }
-        });
         User newUser = new User();
-        String encryptedPassword = passwordEncoder.encode(password);
-        newUser.setLogin(userDTO.getLogin().toLowerCase());
+        Optional<User> oneByLogin=null;
+        if (userDTO.getId()!=null){
+            oneByLogin = userRepository.findById(userDTO.getId());
+
+        }else{
+            oneByLogin = userRepository.findOneByLogin(userDTO.getLogin().toLowerCase());
+        }
+        if (oneByLogin.isPresent()){
+            User user = oneByLogin.get();
+            newUser.setId(user.getId());
+            if (password!=null){
+                newUser.setPassword(passwordEncoder.encode(password));
+                newUser.setLogin(userDTO.getLogin());
+            }
+            if (userDTO.getLogin()!=null){
+                newUser.setLogin(userDTO.getLogin());
+                String encryptedPassword = passwordEncoder.encode(password);
+                newUser.setPassword(encryptedPassword);
+            }
+        }else{
+            String encryptedPassword = passwordEncoder.encode(password);
+            newUser.setPassword(encryptedPassword);
+            newUser.setLogin(userDTO.getLogin());
+
+        }
         // new user gets initially a generated password
-        newUser.setPassword(encryptedPassword);
         newUser.setFirstName(userDTO.getFirstName());
         newUser.setLastName(userDTO.getLastName());
         if (userDTO.getEmail() != null) {
@@ -106,15 +118,26 @@ public class UserService {
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
         // new user is not active
-        newUser.setActivated(false);
+        newUser.setActivated(true);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
-        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+        userDTO.getAuthorities().stream().forEach(a->authorityRepository.findById(a).ifPresent(authorities::add));
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
+    }
+
+    public User registerUserYegan(Yegan yegan, UserDTO userDTO, String password) {
+        User user = registerUser(userDTO, password);
+        user.setYegan(yegan);
+       return userRepository.save(user);
+    }
+    public User registerUserKarbar(Karbar karbar, UserDTO userDTO, String password) {
+        User user = registerUser(userDTO, password);
+        user.setKarbar(karbar);
+        return userRepository.save(user);
     }
 
     private boolean removeNonActivatedUser(User existingUser) {

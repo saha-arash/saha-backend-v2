@@ -2,6 +2,7 @@ package ir.saha.service;
 
 import ir.saha.service.dto.BarnameHesabResiDTO;
 
+import ir.saha.service.dto.FilterbarnameHesabResiSalane;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -49,4 +50,6 @@ public interface BarnameHesabResiService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Page<BarnameHesabResiDTO> getCurrentUser(Pageable pageable, FilterbarnameHesabResiSalane filter);
 }

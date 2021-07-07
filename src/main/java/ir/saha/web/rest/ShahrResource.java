@@ -97,6 +97,14 @@ public class ShahrResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/shahrs/search")
+    public ResponseEntity<List<ShahrDTO>> shahr(Pageable pageable,@RequestParam(name = "name") String name) {
+        log.debug("REST request to get a page of Shahrs");
+        Page<ShahrDTO> page = shahrService.search(name,pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     /**
      * {@code GET  /shahrs/:id} : get the "id" shahr.
      *

@@ -1,7 +1,13 @@
 package ir.saha.web.rest;
 
+import ir.saha.domain.Yegan;
+import ir.saha.domain.enumeration.NoeBarnameHesabResi;
+import ir.saha.domain.enumeration.VaziateHesabResi;
+import ir.saha.repository.HesabResiRepository;
 import ir.saha.service.YeganService;
 import ir.saha.service.dto.FiltereYeganBarresiNashode;
+import ir.saha.service.dto.YeganFilter;
+import ir.saha.service.mapper.YeganMapper;
 import ir.saha.web.rest.errors.BadRequestAlertException;
 import ir.saha.service.dto.YeganDTO;
 
@@ -11,10 +17,10 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing {@link ir.saha.domain.Yegan}.
@@ -40,9 +46,14 @@ public class YeganResource {
     private String applicationName;
 
     private final YeganService yeganService;
+    private final YeganMapper yeganMapper;
+    private final HesabResiRepository hesabResiRepository;
 
-    public YeganResource(YeganService yeganService) {
+
+    public YeganResource(YeganService yeganService, YeganMapper yeganMapper, HesabResiRepository hesabResiRepository) {
         this.yeganService = yeganService;
+        this.yeganMapper = yeganMapper;
+        this.hesabResiRepository = hesabResiRepository;
     }
 
     /**
@@ -85,30 +96,70 @@ public class YeganResource {
             .body(result);
     }
 
-    /**
-     * {@code GET  /yegans} : get all the yegans.
-     *
-     * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @param filter the filter of the request.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of yegans in body.
-     */
+
     @GetMapping("/yegans")
-    public ResponseEntity<List<YeganDTO>> getAllYegans(Pageable pageable, @RequestParam(required = false) String filter, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
-        if ("yegancode-is-null".equals(filter)) {
-            log.debug("REST request to get all Yegans where yeganCode is null");
-            return new ResponseEntity<>(yeganService.findAllWhereYeganCodeIsNull(),
-                    HttpStatus.OK);
+    @Transactional
+    public ResponseEntity<List<YeganDTO>> getAllYegans(Pageable pageable, YeganFilter yeganFilter) {
+
+        List<Yegan> collect=null;
+        if (yeganFilter.getHesabresiId()!=null){
+            collect = hesabResiRepository.findById(yeganFilter
+                .getHesabresiId()).get().getBargeMamooriats()
+                .stream().map(bm -> bm.getYegan()).collect(Collectors.toList());
+        }else {
+            collect = yeganService.findAll();
         }
-        log.debug("REST request to get a page of Yegans");
-        Page<YeganDTO> page;
-        if (eagerload) {
-            page = yeganService.findAllWithEagerRelationships(pageable);
-        } else {
-            page = yeganService.findAll(pageable);
-        }
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<YeganDTO> result = collect.stream()
+            .filter(y -> {
+                if (!yeganFilter.isKharejAzMarkaz()) {
+                    return true;
+                }
+                return !y.getShahr().getName().equals("تهران");
+            })
+            .filter(y -> {
+                if (yeganFilter.getName() == null) {
+                    return true;
+                } else return yeganFilter.getName().contains(y.getName());
+            }).filter(y -> {
+                if (yeganFilter.getCode() == null) {
+                    return true;
+                } else return yeganFilter.getCode().equals(y.getCode());
+            }).filter(y -> {
+                if (yeganFilter.getMantagheId() == null) {
+                    return true;
+                } else return yeganFilter.getMantagheId().equals(y.getShahr().getOstan().getMantaghe().getId());
+            }).filter(y -> {
+                if (yeganFilter.getShahrId() == null) {
+                    return true;
+                } else return yeganFilter.getShahrId().equals(y.getShahr().getId());
+            }).filter(y -> {
+                if (yeganFilter.getNirooCodeId() == null) {
+                    return true;
+                } else return yeganFilter.getNirooCodeId().equals(y.getNirooCode().getId());
+            }).filter(y -> {
+                if (!yeganFilter.isJahateHesabResi()) {
+                    return true;
+                } else
+                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().equals(NoeBarnameHesabResi.HESABRESI_BARNAMEE));
+            }).filter(y -> {
+                if (!yeganFilter.isJahatePeygiri()) {
+                    return true;
+                } else
+                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getBarnameHesabResi().getNoeBarnameHesabResi().equals(NoeBarnameHesabResi.HESABRESI_PEYGIRI));
+            }).filter(y -> {
+                if (!yeganFilter.isHesabresiShode()) {
+                    return true;
+                } else
+                    return y.getBargeMamoorits().stream().anyMatch(b -> b.getHesabResi().getVaziateHesabResi().equals(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN));
+            }).filter(y -> {
+                if (!yeganFilter.isHesabresiNashodeShode()) {
+                    return true;
+                } else
+                    return y.getBargeMamoorits().stream().anyMatch(b -> !b.getHesabResi().getVaziateHesabResi().equals(VaziateHesabResi.ETMAM_MAMOORIAT_HOZOOR_DARSAZMAN));
+            }).map(yeganMapper::toDto).collect(Collectors.toList());
+        PageImpl<YeganDTO> yegans = new PageImpl<>(result, pageable, 1000);
+        HttpHeaders httpHeaders = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), yegans);
+        return ResponseEntity.ok().headers(httpHeaders).body(yegans.getContent());
     }
 
     /**
@@ -121,6 +172,12 @@ public class YeganResource {
     public ResponseEntity<YeganDTO> getYegan(@PathVariable Long id) {
         log.debug("REST request to get Yegan : {}", id);
         Optional<YeganDTO> yeganDTO = yeganService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(yeganDTO);
+    }
+
+    @GetMapping("/yegans/serach")
+    public ResponseEntity<List<YeganDTO>> getYegan(@RequestParam(name = "name") String name) {
+        Optional<List<YeganDTO>> yeganDTO = yeganService.search(name);
         return ResponseUtil.wrapOrNotFound(yeganDTO);
     }
 

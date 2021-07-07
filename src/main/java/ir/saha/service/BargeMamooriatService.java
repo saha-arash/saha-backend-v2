@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Service Interface for managing {@link ir.saha.domain.BargeMamooriat}.
@@ -51,7 +52,7 @@ public interface BargeMamooriatService {
 
     TamamBargemamooriatHa getUserMamooriat(FilterBargeMamooriat bargeMamooriat, Long userId, Pageable pageable);
 
-    List<BargeMamooriatDTO> getCurrentUserMamooriat(FilterBargeMamooriat bargeMamooriat);
+    Set<BargeMamooriatDTO> getCurrentUserMamooriat(FilterBargeMamooriat bargeMamooriat);
 
     List<BargeMamooriatDTO> getUserMamooriat(FilterBargeMamooriat bargeMamooriat, Long userId);
 }

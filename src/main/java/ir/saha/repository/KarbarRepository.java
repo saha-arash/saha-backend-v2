@@ -24,6 +24,9 @@ public interface KarbarRepository extends JpaRepository<Karbar, Long> {
     @Query("select distinct karbar from Karbar karbar left join fetch karbar.bargeMamoorits left join fetch karbar.binanadeBargeMamoorits")
     List<Karbar> findAllWithEagerRelationships();
 
+    @Query("select  karbar from Karbar karbar where karbar.name like %:d%  ")
+    List<Karbar> serachByName(@Param("d") String name);
+
     @Query("select karbar from Karbar karbar left join fetch karbar.bargeMamoorits left join fetch karbar.binanadeBargeMamoorits where karbar.id =:id")
     Optional<Karbar> findOneWithEagerRelationships(@Param("id") Long id);
 

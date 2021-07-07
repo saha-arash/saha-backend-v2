@@ -1,7 +1,9 @@
 package ir.saha.repository;
 
+import ir.saha.domain.Karbar;
 import ir.saha.domain.User;
 
+import ir.saha.domain.Yegan;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.Pageable;
@@ -39,5 +41,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneWithAuthoritiesByEmailIgnoreCase(String email);
 
     Page<User> findAllByLoginNot(Pageable pageable, String login);
+    User findByKarbar(Karbar karbar);
+    User findByYegan(Yegan yegan);
+
 
 }

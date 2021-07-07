@@ -1,5 +1,8 @@
 package ir.saha.service.impl;
 
+import ir.saha.domain.User;
+import ir.saha.repository.UserRepository;
+import ir.saha.security.SecurityUtils;
 import ir.saha.service.PayamService;
 import ir.saha.domain.Payam;
 import ir.saha.repository.PayamRepository;
@@ -8,6 +11,7 @@ import ir.saha.service.mapper.PayamMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,10 +43,17 @@ public class PayamServiceImpl implements PayamService {
      * @param payamDTO the entity to save.
      * @return the persisted entity.
      */
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public PayamDTO save(PayamDTO payamDTO) {
-        log.debug("Request to save Payam : {}", payamDTO);
+        String user = SecurityUtils.getCurrentUserLogin().get();
+        User userResult = userRepository.findOneByLogin(user).get();
         Payam payam = payamMapper.toEntity(payamDTO);
+        if(userResult.getKarbar()!=null){
+            payam.setKarbarErsalKonande(userResult.getKarbar());
+        }else payam.setYeganErsalKonanade(userResult.getYegan());
+        log.debug("Request to save Payam : {}", payamDTO);
         payam = payamRepository.save(payam);
         return payamMapper.toDto(payam);
     }

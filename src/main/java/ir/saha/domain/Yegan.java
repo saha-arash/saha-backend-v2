@@ -31,10 +31,10 @@ public class Yegan implements Serializable {
     @OneToMany(mappedBy = "yegan")
     private Set<Karbar> karbars = new HashSet<>();
 
-    @OneToMany(mappedBy = "yeganErsalKonanade")
+    @OneToMany(mappedBy = "yeganDaryaftKonanade")
     private Set<Payam> sandoghVoroodis = new HashSet<>();
 
-    @OneToMany(mappedBy = "yeganDaryaftKonanade")
+    @OneToMany(mappedBy = "yeganErsalKonanade")
     private Set<Payam> snadoghKhoroojis = new HashSet<>();
 
     @OneToMany(mappedBy = "yegan")
@@ -66,7 +66,18 @@ public class Yegan implements Serializable {
     @JsonIgnore
     private Set<Yegan> yegans = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    @OneToOne(mappedBy = "yegan")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    // jhipster-need@OneToOne(mappedBy = "user")le-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }

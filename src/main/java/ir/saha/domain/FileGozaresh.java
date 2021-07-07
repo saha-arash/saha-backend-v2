@@ -23,12 +23,22 @@ public class FileGozaresh implements Serializable {
     @Column(name = "file")
     private byte[] file;
 
+    private String fileName;
+
     @Column(name = "file_content_type")
     private String fileContentType;
 
     @ManyToOne
     @JsonIgnoreProperties("filehayegozareshes")
     private Gozaresh hesabResi;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

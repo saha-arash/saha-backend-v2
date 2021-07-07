@@ -58,10 +58,10 @@ public class Karbar implements Serializable {
     @OneToMany(mappedBy = "sarparast")
     private Set<BargeMamooriat> sarparestemamooriats = new HashSet<>();
 
-    @OneToMany(mappedBy = "karbarErsalKonande")
+    @OneToMany(mappedBy = "karbarDaryaftKonand")
     private Set<Payam> sandoghVoroodis = new HashSet<>();
 
-    @OneToMany(mappedBy = "karbarDaryaftKonand")
+    @OneToMany(mappedBy = "karbarErsalKonande")
     private Set<Payam> snadoghKhoroojis = new HashSet<>();
 
     @ManyToMany
@@ -80,6 +80,8 @@ public class Karbar implements Serializable {
     @JsonIgnoreProperties("karbars")
     private Yegan yegan;
 
+    @OneToOne(mappedBy = "karbar")
+    private User user;
     @ManyToOne
     @JsonIgnoreProperties("karbars")
     private YeganCode yeganCode;
@@ -111,6 +113,13 @@ public class Karbar implements Serializable {
         return this;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -283,6 +292,9 @@ public class Karbar implements Serializable {
     }
 
     public Set<BargeMamooriat> getSarparestemamooriats() {
+        if (this.sarparestemamooriats==null){
+            return new HashSet<>();
+        }
         return sarparestemamooriats;
     }
 
@@ -358,6 +370,9 @@ public class Karbar implements Serializable {
     }
 
     public Set<BargeMamooriat> getBargeMamoorits() {
+        if (this.bargeMamoorits==null){
+            return new HashSet<>();
+        }
         return bargeMamoorits;
     }
 
@@ -383,6 +398,9 @@ public class Karbar implements Serializable {
     }
 
     public Set<BargeMamooriat> getBinanadeBargeMamoorits() {
+        if (this.binanadeBargeMamoorits==null){
+            return new HashSet<>();
+        }
         return binanadeBargeMamoorits;
     }
 

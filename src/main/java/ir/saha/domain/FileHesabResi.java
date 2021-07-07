@@ -22,6 +22,7 @@ public class FileHesabResi implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String fileName;
     @Lob
     @Column(name = "file")
     private byte[] file;
@@ -49,6 +50,70 @@ public class FileHesabResi implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("failhas")
     private BarnameHesabResi barnameHesabResi;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private BankEtelaati bankEtelaati;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private RafeIradat rafeIradat;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private MostaKhreje mostaKhreje;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private BilanSeSalGhabl bilanSeSalGhabl;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private MohasebeHazineMamooriat mohasebeHazineMamooriat;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private ChekideGardeshKar chekideGardeshKar;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private GozareshHozoor gozareshHozoor;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private BilanSalGhabl bilanSalGhabl;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private Madarek madarek;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private GardeshkarBarnameHesabresi gardeshkarBarnameHesabresi;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private DastoorAmalEjraE dastoorAmalEjraE;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private Nameh nameh;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private KholaseGozaresh kholaseGozaresh;
+
+    @ManyToOne
+    @JsonIgnoreProperties("failhas")
+    private GardeshKar gardeshKar;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -161,6 +226,188 @@ public class FileHesabResi implements Serializable {
 
     public void setBarnameHesabResi(BarnameHesabResi barnameHesabResi) {
         this.barnameHesabResi = barnameHesabResi;
+    }
+
+    public BankEtelaati getBankEtelaati() {
+        return bankEtelaati;
+    }
+
+    public FileHesabResi bankEtelaati(BankEtelaati bankEtelaati) {
+        this.bankEtelaati = bankEtelaati;
+        return this;
+    }
+
+    public void setBankEtelaati(BankEtelaati bankEtelaati) {
+        this.bankEtelaati = bankEtelaati;
+    }
+
+    public RafeIradat getRafeIradat() {
+        return rafeIradat;
+    }
+
+    public FileHesabResi rafeIradat(RafeIradat rafeIradat) {
+        this.rafeIradat = rafeIradat;
+        return this;
+    }
+
+    public void setRafeIradat(RafeIradat rafeIradat) {
+        this.rafeIradat = rafeIradat;
+    }
+
+    public MostaKhreje getMostaKhreje() {
+        return mostaKhreje;
+    }
+
+    public FileHesabResi mostaKhreje(MostaKhreje mostaKhreje) {
+        this.mostaKhreje = mostaKhreje;
+        return this;
+    }
+
+    public void setMostaKhreje(MostaKhreje mostaKhreje) {
+        this.mostaKhreje = mostaKhreje;
+    }
+
+    public BilanSeSalGhabl getBilanSeSalGhabl() {
+        return bilanSeSalGhabl;
+    }
+
+    public FileHesabResi bilanSeSalGhabl(BilanSeSalGhabl bilanSeSalGhabl) {
+        this.bilanSeSalGhabl = bilanSeSalGhabl;
+        return this;
+    }
+
+    public void setBilanSeSalGhabl(BilanSeSalGhabl bilanSeSalGhabl) {
+        this.bilanSeSalGhabl = bilanSeSalGhabl;
+    }
+
+    public MohasebeHazineMamooriat getMohasebeHazineMamooriat() {
+        return mohasebeHazineMamooriat;
+    }
+
+    public FileHesabResi mohasebeHazineMamooriat(MohasebeHazineMamooriat mohasebeHazineMamooriat) {
+        this.mohasebeHazineMamooriat = mohasebeHazineMamooriat;
+        return this;
+    }
+
+    public void setMohasebeHazineMamooriat(MohasebeHazineMamooriat mohasebeHazineMamooriat) {
+        this.mohasebeHazineMamooriat = mohasebeHazineMamooriat;
+    }
+
+    public ChekideGardeshKar getChekideGardeshKar() {
+        return chekideGardeshKar;
+    }
+
+    public FileHesabResi chekideGardeshKar(ChekideGardeshKar chekideGardeshKar) {
+        this.chekideGardeshKar = chekideGardeshKar;
+        return this;
+    }
+
+    public void setChekideGardeshKar(ChekideGardeshKar chekideGardeshKar) {
+        this.chekideGardeshKar = chekideGardeshKar;
+    }
+
+    public GozareshHozoor getGozareshHozoor() {
+        return gozareshHozoor;
+    }
+
+    public FileHesabResi gozareshHozoor(GozareshHozoor gozareshHozoor) {
+        this.gozareshHozoor = gozareshHozoor;
+        return this;
+    }
+
+    public void setGozareshHozoor(GozareshHozoor gozareshHozoor) {
+        this.gozareshHozoor = gozareshHozoor;
+    }
+
+    public BilanSalGhabl getBilanSalGhabl() {
+        return bilanSalGhabl;
+    }
+
+    public FileHesabResi bilanSalGhabl(BilanSalGhabl bilanSalGhabl) {
+        this.bilanSalGhabl = bilanSalGhabl;
+        return this;
+    }
+
+    public void setBilanSalGhabl(BilanSalGhabl bilanSalGhabl) {
+        this.bilanSalGhabl = bilanSalGhabl;
+    }
+
+    public Madarek getMadarek() {
+        return madarek;
+    }
+
+    public FileHesabResi madarek(Madarek madarek) {
+        this.madarek = madarek;
+        return this;
+    }
+
+    public void setMadarek(Madarek madarek) {
+        this.madarek = madarek;
+    }
+
+    public GardeshkarBarnameHesabresi getGardeshkarBarnameHesabresi() {
+        return gardeshkarBarnameHesabresi;
+    }
+
+    public FileHesabResi gardeshkarBarnameHesabresi(GardeshkarBarnameHesabresi gardeshkarBarnameHesabresi) {
+        this.gardeshkarBarnameHesabresi = gardeshkarBarnameHesabresi;
+        return this;
+    }
+
+    public void setGardeshkarBarnameHesabresi(GardeshkarBarnameHesabresi gardeshkarBarnameHesabresi) {
+        this.gardeshkarBarnameHesabresi = gardeshkarBarnameHesabresi;
+    }
+
+    public DastoorAmalEjraE getDastoorAmalEjraE() {
+        return dastoorAmalEjraE;
+    }
+
+    public FileHesabResi dastoorAmalEjraE(DastoorAmalEjraE dastoorAmalEjraE) {
+        this.dastoorAmalEjraE = dastoorAmalEjraE;
+        return this;
+    }
+
+    public void setDastoorAmalEjraE(DastoorAmalEjraE dastoorAmalEjraE) {
+        this.dastoorAmalEjraE = dastoorAmalEjraE;
+    }
+
+    public Nameh getNameh() {
+        return nameh;
+    }
+
+    public FileHesabResi nameh(Nameh nameh) {
+        this.nameh = nameh;
+        return this;
+    }
+
+    public void setNameh(Nameh nameh) {
+        this.nameh = nameh;
+    }
+
+    public KholaseGozaresh getKholaseGozaresh() {
+        return kholaseGozaresh;
+    }
+
+    public FileHesabResi kholaseGozaresh(KholaseGozaresh kholaseGozaresh) {
+        this.kholaseGozaresh = kholaseGozaresh;
+        return this;
+    }
+
+    public void setKholaseGozaresh(KholaseGozaresh kholaseGozaresh) {
+        this.kholaseGozaresh = kholaseGozaresh;
+    }
+
+    public GardeshKar getGardeshKar() {
+        return gardeshKar;
+    }
+
+    public FileHesabResi gardeshKar(GardeshKar gardeshKar) {
+        this.gardeshKar = gardeshKar;
+        return this;
+    }
+
+    public void setGardeshKar(GardeshKar gardeshKar) {
+        this.gardeshKar = gardeshKar;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

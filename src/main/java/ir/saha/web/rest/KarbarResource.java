@@ -1,6 +1,11 @@
 package ir.saha.web.rest;
 
+import ir.saha.domain.Karbar;
+import ir.saha.domain.NirooCode;
+import ir.saha.domain.Yegan;
 import ir.saha.service.KarbarService;
+import ir.saha.service.dto.FilterKarbar;
+import ir.saha.service.dto.PayamDTO;
 import ir.saha.web.rest.errors.BadRequestAlertException;
 import ir.saha.service.dto.KarbarDTO;
 
@@ -52,7 +57,7 @@ public class KarbarResource {
      */
     @PostMapping("/karbars")
     public ResponseEntity<KarbarDTO> createKarbar(@RequestBody KarbarDTO karbarDTO) throws URISyntaxException {
-        log.debug("REST request to save Karbar : {}", karbarDTO);
+        log.error("REST request to save Karbar : {}", karbarDTO);
         if (karbarDTO.getId() != null) {
             throw new BadRequestAlertException("A new karbar cannot already have an ID", ENTITY_NAME, "idexists");
         }
@@ -116,11 +121,56 @@ public class KarbarResource {
         return ResponseUtil.wrapOrNotFound(karbarDTO);
     }
 
+    @GetMapping("/karbars/Search")
+    public ResponseEntity<List<KarbarDTO>> getKarbar(FilterKarbar filterKarbar) {
+        Karbar karbar=new Karbar();
+        karbar.setName(filterKarbar.getName());
+        karbar.setCodePerseneli(filterKarbar.getShomarePersonaly());
+        Yegan yegan=new Yegan();
+        yegan.setName(filterKarbar.getName());
+        yegan.setId(1l);
+        NirooCode nirooCode=new NirooCode();
+        nirooCode.setName(filterKarbar.getNiroo());
+        nirooCode.setId(1l);
+        yegan.setNirooCode(nirooCode);
+        karbar.setYegan(yegan);
+        Optional<List<KarbarDTO>> byExample = karbarService.findByExample(karbar);
+        return ResponseUtil.wrapOrNotFound(byExample);
+    }
+
     @GetMapping("/karbars/by-ids")
     public ResponseEntity<List<KarbarDTO>> getKarbar(@RequestParam List<Long> ids) {
         Optional<List<KarbarDTO>> karbarDTO = karbarService.findByIds(ids);
         return ResponseUtil.wrapOrNotFound(karbarDTO);
     }
+
+    @GetMapping("/karbars/search-by-example")
+    public ResponseEntity<List<KarbarDTO>> getKarbar(Karbar karbar) {
+        Optional<List<KarbarDTO>> karbarDTO = karbarService.findByExample(karbar);
+        return ResponseUtil.wrapOrNotFound(karbarDTO);
+    }
+
+    @GetMapping("/karbars/search")
+    public ResponseEntity<List<KarbarDTO>> getKarbar(@RequestParam String name) {
+        Optional<List<KarbarDTO>> karbarDTO = karbarService.search(name);
+        return ResponseUtil.wrapOrNotFound(karbarDTO);
+    }
+
+    @GetMapping("/karbars/sandoghvoroodi")
+    public ResponseEntity<List<PayamDTO>> sandoghVoroodi(Pageable pageable) {
+        Page<PayamDTO> payamDTOS = karbarService.getPayamVoroodi(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), payamDTOS);
+        return ResponseEntity.ok().headers(headers).body(payamDTOS.getContent());
+    }
+
+
+    @GetMapping("/karbars/sandoghkhorooji")
+    public ResponseEntity<List<PayamDTO>> sandoghKhorooji(Pageable pageable) {
+        Page<PayamDTO> payamDTOS = karbarService.getPayamKhoorooji(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), payamDTOS);
+        return ResponseEntity.ok().headers(headers).body(payamDTOS.getContent());
+    }
+
 
     /**
      * {@code DELETE  /karbars/:id} : delete the "id" karbar.

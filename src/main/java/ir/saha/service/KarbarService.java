@@ -1,7 +1,9 @@
 package ir.saha.service;
 
+import ir.saha.domain.Karbar;
 import ir.saha.service.dto.KarbarDTO;
 
+import ir.saha.service.dto.PayamDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -52,4 +54,13 @@ public interface KarbarService {
     void delete(Long id);
 
     Optional<List<KarbarDTO>> findByIds(List<Long> ids);
+
+    Optional<List<KarbarDTO>> findByExample(Karbar karbar);
+
+    Optional<List<KarbarDTO>> search(String name);
+
+    Page<PayamDTO> getPayamVoroodi(Pageable pageable);
+
+
+    Page<PayamDTO> getPayamKhoorooji(Pageable pageable);
 }

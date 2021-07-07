@@ -36,6 +36,20 @@
     <include file="config/liquibase/changelog/20210110114400_added_entity_Ostan.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210110114500_added_entity_Shahr.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210110114600_added_entity_Gozaresh.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117190200_added_entity_MohasebeHazineMamooriat.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117190300_added_entity_DastoorAmalEjraE.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117190400_added_entity_GardeshkarBarnameHesabresi.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117190500_added_entity_Madarek.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117190600_added_entity_BilanSalGhabl.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117190700_added_entity_GozareshHozoor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117190800_added_entity_ChekideGardeshKar.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117190900_added_entity_BilanSeSalGhabl.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117191000_added_entity_MostaKhreje.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117191100_added_entity_RafeIradat.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117191200_added_entity_BankEtelaati.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117191300_added_entity_Nameh.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117191400_added_entity_KholaseGozaresh.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210117191500_added_entity_GardeshKar.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20210110112500_added_entity_constraints_YeganCode.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210110112600_added_entity_constraints_Payam.xml" relativeToChangelogFile="false"/>
@@ -52,7 +66,13 @@
     <include file="config/liquibase/changelog/20210110114200_added_entity_constraints_FileGozaresh.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210110114400_added_entity_constraints_Ostan.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210110114500_added_entity_constraints_Shahr.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20210119113300_added_column_user_id.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210119113300_added_column_user_id_karbar.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210149113300_added_column_file_name_to_file_mamooriat.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210150113300_drop_email_constrain.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210205113300_added_column_roozetatilSal.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210210113300_add_authority.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210210113300_add_karbar_to_admin.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210219114100_added_entity_newFiles.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210219114100_adde_file_name.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

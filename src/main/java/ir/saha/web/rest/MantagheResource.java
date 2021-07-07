@@ -97,6 +97,14 @@ public class MantagheResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/mantaghes/search")
+    public ResponseEntity<List<MantagheDTO>> search(@RequestParam String name, Pageable pageable) {
+        log.debug("REST request to get a page of Mantaghes");
+        Page<MantagheDTO> page = mantagheService.search(name,pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     /**
      * {@code GET  /mantaghes/:id} : get the "id" mantaghe.
      *

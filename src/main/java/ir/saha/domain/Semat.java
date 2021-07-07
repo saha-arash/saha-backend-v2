@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "semat")
-public class Semat implements Serializable {
+public class    Semat implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

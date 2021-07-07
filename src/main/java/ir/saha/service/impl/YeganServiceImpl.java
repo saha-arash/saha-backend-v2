@@ -1,23 +1,30 @@
 package ir.saha.service.impl;
 
 import ir.saha.domain.BargeMamooriat;
+import ir.saha.domain.Karbar;
+import ir.saha.domain.User;
+import ir.saha.repository.UserRepository;
+import ir.saha.service.UserService;
 import ir.saha.service.YeganService;
 import ir.saha.domain.Yegan;
 import ir.saha.repository.YeganRepository;
 import ir.saha.service.dto.FiltereYeganBarresiNashode;
+import ir.saha.service.dto.UserDTO;
 import ir.saha.service.dto.YeganDTO;
+import ir.saha.service.mapper.NirooCodeMapper;
+import ir.saha.service.mapper.ShahrMapper;
 import ir.saha.service.mapper.YeganMapper;
+import ir.saha.service.mapper.YeganTypeMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -34,9 +41,20 @@ public class YeganServiceImpl implements YeganService {
 
     private final YeganMapper yeganMapper;
 
-    public YeganServiceImpl(YeganRepository yeganRepository, YeganMapper yeganMapper) {
+    private final UserService userService;
+    private final YeganTypeMapper yeganTypeMapper;
+    private final ShahrMapper shahrMapper;
+    private final NirooCodeMapper nirooCodeMapper;
+
+
+
+    public YeganServiceImpl(YeganRepository yeganRepository, YeganMapper yeganMapper, UserService userService, YeganTypeMapper yeganTypeMapper, ShahrMapper shahrMapper, NirooCodeMapper nirooCodeMapper) {
         this.yeganRepository = yeganRepository;
         this.yeganMapper = yeganMapper;
+        this.userService = userService;
+        this.yeganTypeMapper = yeganTypeMapper;
+        this.shahrMapper = shahrMapper;
+        this.nirooCodeMapper = nirooCodeMapper;
     }
 
     /**
@@ -45,15 +63,30 @@ public class YeganServiceImpl implements YeganService {
      * @param yeganDTO the entity to save.
      * @return the persisted entity.
      */
+
+    @Autowired
+    private UserRepository userRepository;
     @Override
+   // @Transactional
     public YeganDTO save(YeganDTO yeganDTO) {
         log.debug("Request to save Yegan : {}", yeganDTO);
         Yegan yegan = yeganMapper.toEntity(yeganDTO);
         yegan = yeganRepository.save(yegan);
+        UserDTO userDTO=new UserDTO();
+        if (yeganDTO.getId()!=null){
+            Yegan result = yeganRepository.findById(yeganDTO.getId()).get();
+            User byYegan = userRepository.findByYegan(result);
+            userDTO.setId(byYegan.getId());
+        }
+        userDTO.setLogin(yeganDTO.getUsername());
+        userDTO.setAuthorities(new HashSet<>(Arrays.asList("ROLE_YEGAN","ROLE_ZIR_YEGAN")));
+        User user = userService.registerUserYegan(yegan, userDTO, yeganDTO.getPassword());
+        yegan.setUser(user);
+        yeganRepository.save(yegan);
         return yeganMapper.toDto(yegan);
     }
 
-    /**
+    /**promoter_service
      * Get all the yegans.
      *
      * @param pageable the pagination information.
@@ -65,6 +98,12 @@ public class YeganServiceImpl implements YeganService {
         log.debug("Request to get all Yegans");
         return yeganRepository.findAll(pageable)
             .map(yeganMapper::toDto);
+    }
+
+    @Override
+    public List<Yegan> findAll() {
+        log.debug("Request to get all Yegans");
+        return yeganRepository.findAll();
     }
 
     /**
@@ -102,7 +141,13 @@ public class YeganServiceImpl implements YeganService {
     public Optional<YeganDTO> findOne(Long id) {
         log.debug("Request to get Yegan : {}", id);
         return yeganRepository.findOneWithEagerRelationships(id)
-            .map(yeganMapper::toDto);
+            .map(y->{
+                YeganDTO yeganDTO = yeganMapper.toDto(y);
+                yeganDTO.setYeganTypeDTO(yeganTypeMapper.toDto(y.getYeganType()));
+                yeganDTO.setShahrDTO(shahrMapper.toDto(y.getShahr()));
+                yeganDTO.setNirooCodeDTO(nirooCodeMapper.toDto(y.getNirooCode()));
+                return yeganDTO;
+            });
     }
 
     /**
@@ -120,6 +165,11 @@ public class YeganServiceImpl implements YeganService {
     public Optional<List<YeganDTO>> findYeganBarresiNashode(FiltereYeganBarresiNashode filtereYeganBarresiNashode) {
         return Optional.of(yeganRepository.findAll()
             .stream().filter(y->{
+                if (!filtereYeganBarresiNashode.isKharejAzMahdoode()){
+                    return true;
+                }
+                return !y.getShahr().getName().equals("تهران");
+            }).filter(y->{
                 if (filtereYeganBarresiNashode.getSal()==null){
                     return true;
                 }
@@ -150,5 +200,12 @@ public class YeganServiceImpl implements YeganService {
                 return y.getNirooCode().getId().equals(filtereYeganBarresiNashode.getNiroo())  && y.getBargeMamoorits().isEmpty();
             }
             return true;}).map(yeganMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<YeganDTO>> search(String name) {
+        return Optional.of(yeganRepository.serachByName(name).stream()
+            .map(yeganMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new)));
     }
 }

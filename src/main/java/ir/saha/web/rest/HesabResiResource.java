@@ -77,7 +77,7 @@ public class HesabResiResource {
         if (hesabResiDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        HesabResiDTO result = hesabResiService.save(hesabResiDTO);
+        HesabResiDTO result = hesabResiService.update(hesabResiDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, hesabResiDTO.getId().toString()))
             .body(result);

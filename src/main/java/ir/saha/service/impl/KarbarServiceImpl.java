@@ -1,20 +1,30 @@
 package ir.saha.service.impl;
 
+import ir.saha.domain.Payam;
+import ir.saha.domain.User;
+import ir.saha.repository.UserRepository;
+import ir.saha.repository.YeganRepository;
+import ir.saha.security.SecurityUtils;
 import ir.saha.service.KarbarService;
 import ir.saha.domain.Karbar;
 import ir.saha.repository.KarbarRepository;
+import ir.saha.service.UserService;
 import ir.saha.service.dto.KarbarDTO;
-import ir.saha.service.mapper.KarbarMapper;
+import ir.saha.service.dto.PayamDTO;
+import ir.saha.service.dto.UserDTO;
+import ir.saha.service.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -30,9 +40,23 @@ public class KarbarServiceImpl implements KarbarService {
 
     private final KarbarMapper karbarMapper;
 
-    public KarbarServiceImpl(KarbarRepository karbarRepository, KarbarMapper karbarMapper) {
+    private final UserService userService;
+
+    private  final UserRepository userRepository;
+    private  final DarajeMapper darajeMapper;
+    private  final SematMapper sematMapper;
+    private  final YeganMapper yeganMapper;
+    private  final YeganRepository yeganRepository;
+
+    public KarbarServiceImpl(KarbarRepository karbarRepository, KarbarMapper karbarMapper, UserService userService, UserRepository userRepository, DarajeMapper darajeMapper, SematMapper sematMapper, YeganMapper yeganMapper, YeganRepository yeganRepository) {
         this.karbarRepository = karbarRepository;
         this.karbarMapper = karbarMapper;
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.darajeMapper = darajeMapper;
+        this.sematMapper = sematMapper;
+        this.yeganMapper = yeganMapper;
+        this.yeganRepository = yeganRepository;
     }
 
     /**
@@ -46,6 +70,18 @@ public class KarbarServiceImpl implements KarbarService {
         log.debug("Request to save Karbar : {}", karbarDTO);
         Karbar karbar = karbarMapper.toEntity(karbarDTO);
         karbar = karbarRepository.save(karbar);
+        UserDTO userDTO=new UserDTO();
+        if (karbarDTO.getId()!=null){
+            Karbar result = karbarRepository.findById(karbarDTO.getId()).get();
+            User byKarbar = userRepository.findByKarbar(result);
+            userDTO.setId(byKarbar.getId());
+        }
+        userDTO.setLogin(karbarDTO.getUsername());
+        Set<String> auth= new HashSet<String>(Arrays.asList("ROLE_USER"));
+        userDTO.setAuthorities(auth);
+        User user = userService.registerUserKarbar(karbar, userDTO, karbarDTO.getPassword());
+        karbar.setUser(user);
+        karbarRepository.save(karbar);
         return karbarMapper.toDto(karbar);
     }
 
@@ -60,7 +96,11 @@ public class KarbarServiceImpl implements KarbarService {
     public Page<KarbarDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Karbars");
         return karbarRepository.findAll(pageable)
-            .map(karbarMapper::toDto);
+            .map(k->{
+                KarbarDTO karbarDTO = karbarMapper.toDto(k);
+                karbarDTO.setUsername(k.getUser().getLogin());
+                return karbarDTO;
+            });
     }
 
     /**
@@ -78,12 +118,32 @@ public class KarbarServiceImpl implements KarbarService {
      * @param id the id of the entity.
      * @return the entity.
      */
+    @Autowired
+    private DoreMapper doreMapper;
+    @Autowired
+    private MorkhasiMapper morkhasiMapper;
+    @Autowired
+    private NegahbaniMapper negahbaniMapper;
     @Override
     @Transactional(readOnly = true)
     public Optional<KarbarDTO> findOne(Long id) {
         log.debug("Request to get Karbar : {}", id);
         return karbarRepository.findOneWithEagerRelationships(id)
-            .map(karbarMapper::toDto);
+            .map(k->{
+                KarbarDTO karbarDTO = karbarMapper.toDto(k);
+                if (k.getDores()!=null)
+                karbarDTO.setDoreDTOS(k.getDores().stream().map(doreMapper::toDto).collect(Collectors.toSet()));
+                if (k.getMorkhasis()!=null)
+                karbarDTO.setMorkhasiDTOS(k.getMorkhasis().stream().map(morkhasiMapper::toDto).collect(Collectors.toSet()));
+                if (k.getNegahbanis()!=null)
+                karbarDTO.setNegahbanis(k.getNegahbanis().stream().map(negahbaniMapper::toDto).collect(Collectors.toSet()));
+
+                karbarDTO.setDarajeDTO(darajeMapper.toDto(k.getDaraje()));
+                karbarDTO.setYeganDTO(yeganMapper.toDto(k.getYegan()));
+                karbarDTO.setSematDTO(sematMapper.toDto(k.getSemat()));
+
+                return karbarDTO;
+            });
     }
 
     /**
@@ -100,5 +160,103 @@ public class KarbarServiceImpl implements KarbarService {
     @Override
     public Optional<List<KarbarDTO>> findByIds(List<Long> ids) {
          return Optional.of(karbarRepository.findAllById(ids).stream().map(karbarMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<KarbarDTO>> findByExample(Karbar karbar) {
+        return Optional.of(karbarRepository.findAll(Example.of(karbar)).stream().map(karbarMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<KarbarDTO>> search(String name) {
+        return Optional.of(karbarRepository.serachByName(name).stream().map(karbarMapper::toDto).collect(Collectors.toList()));
+    }
+
+    @Autowired
+    private PayamMapper payamMapper;
+    @Override
+    public Page<PayamDTO> getPayamVoroodi(Pageable pageable) {
+        String user = SecurityUtils.getCurrentUserLogin().get();
+        User userResult = userRepository.findOneByLogin(user).get();
+        List<PayamDTO> collect=new ArrayList<>();
+        int resultSiz=0;
+        if (userResult.getKarbar()==null){
+            if(userResult.getYegan()!=null) {
+                if (userResult.getYegan().getSandoghVoroodis() != null) {
+                    Set<Payam> result = userResult.getYegan().getSandoghVoroodis();
+                    resultSiz = result.size();
+                    collect = result.stream().map(p -> {
+                        return getPayamDTO(p);
+                    }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                        .limit(pageable.getPageSize()).collect(Collectors.toList());
+                }
+                return new PageImpl<>(collect, pageable, resultSiz);
+            }else return  new PageImpl<>(collect, pageable, 0);
+        }
+
+
+
+        if (userResult.getKarbar().getSandoghVoroodis()!=null){
+            if (userResult.getKarbar()!=null) {
+            Set<Payam> result = userResult.getKarbar().getSandoghVoroodis();
+                resultSiz = result.size();
+            collect=result.stream().map(p->{
+                return getPayamDTO(p);
+            }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                    .limit(pageable.getPageSize()).collect(Collectors.toList());
+            }
+        }else return  new PageImpl<>(collect, pageable, 0);
+        return new PageImpl<>(collect, pageable, resultSiz);
+
+    }
+
+    @Override
+    public Page<PayamDTO> getPayamKhoorooji(Pageable pageable) {
+        String user = SecurityUtils.getCurrentUserLogin().get();
+        User userResult = userRepository.findOneByLogin(user).get();
+        List<PayamDTO> collect=new ArrayList<>();
+        int resultSize=0;
+        if (userResult.getKarbar()==null){
+            if(userResult.getYegan()!=null){
+            if (userResult.getYegan().getSnadoghKhoroojis()!=null){
+                Set<Payam> result = userResult.getYegan().getSnadoghKhoroojis();
+                collect=result.stream().map(p -> {
+                    return getPayamDTO(p);
+                }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                    .limit(pageable.getPageSize()).collect(Collectors.toList());
+            }
+            }else return  new PageImpl<>(collect, pageable, 0);
+        }
+
+
+
+        if (userResult.getKarbar()!=null) {
+            if (userResult.getKarbar().getSnadoghKhoroojis() != null) {
+                Set<Payam> result = userResult.getKarbar().getSnadoghKhoroojis();
+                resultSize = result.size();
+                collect = result.stream().map(p->{
+                    return getPayamDTO(p);
+                }).skip((long) pageable.getPageSize() * pageable.getPageNumber())
+                    .limit(pageable.getPageSize()).collect(Collectors.toList());
+            }
+        }else return  new PageImpl<>(collect, pageable, 0);
+        return new PageImpl<>(collect, pageable, resultSize);
+    }
+
+    private PayamDTO getPayamDTO(Payam p) {
+        PayamDTO payamDTO = payamMapper.toDto(p);
+        if (payamDTO.getKarbarDaryaftKonandId() != null) {
+            payamDTO.setKarbarDaryaftKonandeKonande(karbarMapper.toDto(karbarRepository.findById(payamDTO.getKarbarDaryaftKonandId()).get()));
+        }
+        if (payamDTO.getKarbarErsalKonandeId() != null) {
+            payamDTO.setKarbarDaryaftKonandeKonande(karbarMapper.toDto(karbarRepository.findById(payamDTO.getKarbarErsalKonandeId()).get()));
+        }
+        if (payamDTO.getYeganDaryaftKonanadeId() != null) {
+            payamDTO.setYeganDaryaftKonande(yeganMapper.toDto(yeganRepository.findById(payamDTO.getYeganDaryaftKonanadeId()).get()));
+        }
+        if (payamDTO.getYeganErsalKonanadeId() != null) {
+            payamDTO.setYeganErsalKonanade(yeganMapper.toDto(yeganRepository.findById(payamDTO.getYeganErsalKonanadeId()).get()));
+        }
+        return payamDTO;
     }
 }

@@ -30,6 +30,16 @@ public class FileName implements Serializable {
     @JsonIgnoreProperties("madareks")
     private Payam name;
 
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

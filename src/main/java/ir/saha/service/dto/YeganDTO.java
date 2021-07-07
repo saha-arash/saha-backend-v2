@@ -16,6 +16,9 @@ public class YeganDTO implements Serializable {
 
     private String code;
 
+    private String username;
+    private String password;
+
 
     private Set<YeganDTO> zirYegans = new HashSet<>();
 
@@ -24,6 +27,52 @@ public class YeganDTO implements Serializable {
     private Long shahrId;
 
     private Long yeganTypeId;
+
+    private NirooCodeDTO nirooCodeDTO;
+
+    private ShahrDTO shahrDTO;
+
+    private YeganTypeDTO yeganTypeDTO;
+
+    public NirooCodeDTO getNirooCodeDTO() {
+        return nirooCodeDTO;
+    }
+
+    public void setNirooCodeDTO(NirooCodeDTO nirooCodeDTO) {
+        this.nirooCodeDTO = nirooCodeDTO;
+    }
+
+    public ShahrDTO getShahrDTO() {
+        return shahrDTO;
+    }
+
+    public void setShahrDTO(ShahrDTO shahrDTO) {
+        this.shahrDTO = shahrDTO;
+    }
+
+    public YeganTypeDTO getYeganTypeDTO() {
+        return yeganTypeDTO;
+    }
+
+    public void setYeganTypeDTO(YeganTypeDTO yeganTypeDTO) {
+        this.yeganTypeDTO = yeganTypeDTO;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Long getId() {
         return id;

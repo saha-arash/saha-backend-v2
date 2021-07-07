@@ -7,6 +7,15 @@ public class FilterBargeMamooriat {
     private VaziatBargeMamooriat vaziatBargeMamooriat;
     private Integer saleMamooriat;
     private Boolean hesabResiShode;
+    private Long hesabresiId;
+
+    public Long getHesabresiId() {
+        return hesabresiId;
+    }
+
+    public void setHesabresiId(Long hesabresiId) {
+        this.hesabresiId = hesabresiId;
+    }
 
     public VaziatBargeMamooriat getVaziatBargeMamooriat() {
         return vaziatBargeMamooriat;

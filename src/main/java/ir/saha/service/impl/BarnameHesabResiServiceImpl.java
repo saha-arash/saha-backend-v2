@@ -1,14 +1,19 @@
 package ir.saha.service.impl;
 
+import ir.saha.repository.KarbarRepository;
+import ir.saha.repository.UserRepository;
+import ir.saha.security.SecurityUtils;
 import ir.saha.service.BarnameHesabResiService;
 import ir.saha.domain.BarnameHesabResi;
 import ir.saha.repository.BarnameHesabResiRepository;
 import ir.saha.service.dto.BarnameHesabResiDTO;
+import ir.saha.service.dto.FilterbarnameHesabResiSalane;
 import ir.saha.service.mapper.BarnameHesabResiMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +36,13 @@ public class BarnameHesabResiServiceImpl implements BarnameHesabResiService {
     private final BarnameHesabResiRepository barnameHesabResiRepository;
 
     private final BarnameHesabResiMapper barnameHesabResiMapper;
+    private final UserRepository userRepository;
 
-    public BarnameHesabResiServiceImpl(BarnameHesabResiRepository barnameHesabResiRepository, BarnameHesabResiMapper barnameHesabResiMapper) {
+
+    public BarnameHesabResiServiceImpl(BarnameHesabResiRepository barnameHesabResiRepository, BarnameHesabResiMapper barnameHesabResiMapper, UserRepository userRepository) {
         this.barnameHesabResiRepository = barnameHesabResiRepository;
         this.barnameHesabResiMapper = barnameHesabResiMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -67,10 +75,11 @@ public class BarnameHesabResiServiceImpl implements BarnameHesabResiService {
 
 
     /**
-     *  Get all the barnameHesabResis where HesabResi is {@code null}.
-     *  @return the list of entities.
+     * Get all the barnameHesabResis where HesabResi is {@code null}.
+     *
+     * @return the list of entities.
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<BarnameHesabResiDTO> findAllWhereHesabResiIsNull() {
         log.debug("Request to get all barnameHesabResis where HesabResi is null");
         return StreamSupport
@@ -103,5 +112,34 @@ public class BarnameHesabResiServiceImpl implements BarnameHesabResiService {
     public void delete(Long id) {
         log.debug("Request to delete BarnameHesabResi : {}", id);
         barnameHesabResiRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<BarnameHesabResiDTO> getCurrentUser(Pageable pageable, FilterbarnameHesabResiSalane filter) {
+        String user = SecurityUtils.getCurrentUserLogin().get();
+        int siz=100;
+        List<BarnameHesabResiDTO> collect = userRepository.findOneByLogin(user).get().getKarbar()
+            .getBargeMamoorits().stream()
+            .map(b -> b.getHesabResi())
+            .filter(hesabResi -> {
+                if (filter.getSalapayan() == null) {
+                    return true;
+                }
+                return hesabResi.getSal() < filter.getSalapayan();
+            })
+            .filter(hesabResi -> {
+                if (filter.getSaleshoroo() == null) {
+                    return true;
+                }
+                return hesabResi.getSal() > filter.getSaleshoroo();
+            })
+            .map(hr -> hr.getBarnameHesabResi())
+            .skip((long) pageable.getPageSize() * pageable.getPageNumber())
+            .limit(pageable.getPageSize())
+            .map(barnameHesabResiMapper::toDto).collect(Collectors.toList());
+
+
+        return new PageImpl<>(collect, pageable, 100);
+
     }
 }
